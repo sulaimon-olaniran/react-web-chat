@@ -54,8 +54,9 @@ const ChatBoard = () => {
     //console.log(selectedChat)
     const handle = useFullScreenHandle().enter()
 
+    openChat && document.documentElement.requestFullscreen()
+
     useEffect(() => {
-        //handle.enter()
         const container = chatContainer.current
         if (container) {
             container.scrollTo(0, container.scrollHeight)
