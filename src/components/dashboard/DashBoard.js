@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import PeopleIcon from '@material-ui/icons/People'
@@ -36,6 +36,11 @@ const DashBoard = ({ history }) => {
     });
 
     const styles = useStyles()
+
+    // useEffect(() =>{
+    //       getUserProfile()
+    //       getUserChats()
+    // }, [])
 
     const handleMainComponent = (component) => {
         setMainComponent(component)

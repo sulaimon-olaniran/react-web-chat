@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useEffect, useRef, useContext, useState } from 'react'
 import ChatInput from '../chatinput/ChatInput'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,6 +10,7 @@ import Slide from '@material-ui/core/Slide'
 import moment from 'moment'
 import DoneIcon from '@material-ui/icons/Done'
 import { ProfileContext } from '../../../context/ProfileContext'
+import { FullScreen, useFullScreenHandle } from "react-full-screen"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,20 +38,24 @@ const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const classes = useStyles()
-    const chatContainer = useRef()
+    const chatContainer = useRef(null)
+    const fullScreenRef = useRef(null)
+    const [fullScreenMode, setfullScreenMode] = useState(false)
 
     const getSelectedChat = (chat) => {
         return chat.interloctors.includes(selectedUser.id)
     }
-    
+
     const closeChatBoard = () => {
         setOpenChat(false)
     }
 
     const selectedChat = chatMessages.filter(getSelectedChat)
     //console.log(selectedChat)
+    const handle = useFullScreenHandle().enter()
 
     useEffect(() => {
+        //handle.enter()
         const container = chatContainer.current
         if (container) {
             container.scrollTo(0, container.scrollHeight)
@@ -73,35 +78,36 @@ const ChatBoard = () => {
         >
             <Slide direction="down" in={openChat} mountOnEnter unmountOnExit>
                 <div className={`chat-board-container ${chatThemeClass}`}>
-                    <div className="chat-board-title">
-                        <ArrowBackIcon onClick={closeChatBoard} fontSize="large" />
-                        <div className="chat-board-title-profile">
-                            <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small} />
-                            <p>{selectedUser.userName}</p>
+                        <div className="chat-board-title">
+                            <ArrowBackIcon onClick={closeChatBoard} fontSize="large" />
+                            <div className="chat-board-title-profile">
+                                <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small} />
+                                <p>{selectedUser.userName}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="chat-board-messages"  >
-                        <div className="messages-container" ref={chatContainer}>
-                            {
-                             selectedChat.length > 0 && selectedChat[0].messages.map((message, i) => {
-                                    const alignMessage = message.sender.toLowerCase() === userProfile.userName.toLowerCase() ? "align-message-right" : "align-message-left"
-                                    return (
-                                        <div className={`each-message-container ${alignMessage}`} key={i} >
-                                            <div className={`each-board-message`}>
-                                                <p >{message.message} {message.sender === userProfile.userName && <DoneIcon className={classes.xsmall} />} </p>
-                                                 <small>{moment(message.timeStamp).fromNow()}</small>
+                        <div className="chat-board-messages"  >
+                            <div className="messages-container" ref={chatContainer}>
+                                {
+                                    selectedChat.length > 0 && selectedChat[0].messages.map((message, i) => {
+                                        const alignMessage = message.sender.toLowerCase() === userProfile.userName.toLowerCase() ? "align-message-right" : "align-message-left"
+                                        return (
+                                            <div className={`each-message-container ${alignMessage}`} key={i} >
+                                                <div className={`each-board-message`}>
+                                                    <p >{message.message} {message.sender === userProfile.userName && <DoneIcon className={classes.xsmall} />} </p>
+                                                    <small>{moment(message.timeStamp).fromNow()}</small>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                        )
+                                    })
+                                }
+                            </div>
+                            <ChatInput userName={userProfile && userProfile.userName} friendName={selectedUser && selectedUser.userName} selectedChat={selectedChat} />
                         </div>
-                        <ChatInput userName={userProfile && userProfile.userName} friendName={ selectedUser && selectedUser.userName} selectedChat={selectedChat} />
-                    </div>
                 </div>
             </Slide>
 
         </Modal>
+
     )
 }
 
