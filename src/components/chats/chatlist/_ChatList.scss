@@ -1,0 +1,63 @@
+.chats-list-container{
+   width: 100%;
+   min-height: 90vh;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+
+   .MuiList-root{
+       width: 100%;
+       padding: 0;
+
+       .MuiListItem-root{
+           border-bottom: 1px solid lightgray;
+       }
+
+       .MuiListItemText-root{
+           color: white;
+
+
+           .MuiListItemText-primary{
+                .chat-list-name{
+                    p{
+                        color: rgb(251, 59, 38);
+                        text-transform: uppercase;
+                    }
+                }
+               div{
+                   width: 100%;
+                   display: flex;
+                   align-items: center;
+                   justify-content: space-between;
+                   
+                   .online{
+                       color: green;
+                   }
+
+                   .offline{
+                       color: red;
+                   }
+               }
+           }
+       }
+
+   }
+
+
+   .MuiTypography-root{
+       span{
+           width: 100%;
+           height: 100%;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           p{
+               font-size: 0.9rem;
+           }
+
+           small{
+               font-size: 0.7rem;
+           }
+       }
+   }
+}

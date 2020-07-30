@@ -1,0 +1,21 @@
+.profile-picture-container{
+    width: 80%;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    .profile-image-container{
+        width: 150px;
+        height: 150px;
+
+        .MuiAvatar-root{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+
+@import './imageupload/ImageUpload';

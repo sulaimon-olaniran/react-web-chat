@@ -1,0 +1,221 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html{
+    width: 100%;
+    min-height: 90%;
+}
+
+body{
+    font-family: 'Arimo', serif;
+
+    .dark-theme{
+        background-color: rgb(0, 0, 14);
+        color: rgb(215, 240, 248);
+    }
+    .light-theme{
+        background-color: rgb(207, 236, 246);
+        color: rgb(0, 0, 37);
+    }
+    
+
+    // styling of profile view modal..............................
+    .user-profile-view{
+        height: 20rem;
+        width: 20rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+
+        .user-profile-details{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            color: inherit;
+        }
+
+        .profile-actions-container{
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            .favorite{
+                color: red;
+            }
+            .not-favorite{
+                color: white;
+            }
+        }
+    }
+
+    //styling of chatboard modal........................
+    .chat-dark-theme{
+        background-color: rgb(29, 29, 29);
+        color: rgb(233, 233, 233);
+    }
+
+    .chat-light-theme{
+        background-color: lightgray;
+        color: rgb(53, 53, 53);
+    }
+    .chat-board-container{
+        height: 100vh;
+        width: 100%;
+        outline: none;
+
+        .chat-board-title{
+            width: 100%;
+            height: 10vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgb(121, 91, 91);
+            color: rgb(248, 215, 203);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+     
+            .chat-board-title-profile{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 80%;
+                height: 100%;
+                P{
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        .chat-board-messages{
+            width: 100%;
+            height: 90vh;
+            margin-top: 10vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+     
+            .messages-container{
+                width: 100%;
+                height: 93%;
+                padding-top: 10px;
+                overflow-y: scroll;
+            
+                .each-message-container{
+                    min-width: 90%;
+                    min-height: 2.5rem;
+                    margin-bottom: 10px;
+                    display: flex;
+                    flex-direction: column;
+     
+                    .each-board-message{
+                        max-width: 90%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 10px;
+                        background-color: rgb(104, 104, 104);
+                        color: white;
+                        padding: 12px;
+                        margin-bottom: 10px;
+
+                        small{
+                            font-size: 0.7rem;
+                            text-align: end;
+                            width: 100%;
+                            margin-top: 3px;
+                        }
+
+                        p{
+                            font-size: 1rem;
+                        }
+        
+                    }
+     
+                }
+     
+                    .align-message-left{
+                        align-items: flex-start;
+                        margin-left: 10px;
+                        .each-board-message{
+                            background-color: darkslategray;
+                            border-top-left-radius: 20px;
+                            border-bottom-right-radius: 20px;
+                        }
+                    }
+     
+                    .align-message-right{
+                        align-items: flex-end;
+                        margin-right: 10px;
+                        .each-board-message{
+                        background-color: darkslateblue;
+                        border-top-right-radius: 20px;
+                        border-bottom-left-radius: 20px;
+                    }
+                }
+            }
+            .chat-input-container{
+                width: 100%;
+                height: 7%;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 5px;
+
+                // #outlined-basic{
+                //     text-transform: ;
+                // }
+
+                .MuiInputBase-root{
+                    color: rgb(248, 215, 203);
+                    background-color: rgb(121, 91, 91);
+                }
+
+                .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline{
+                    border-color:rgb(121, 91, 91) ;
+                }
+
+                .MuiInputBase-input{
+                    color: white;
+                    font-size: 1.1rem;
+                }
+            
+                .chat-input-contents{
+                    width: 90%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+
+                    .MuiSvgIcon-root{
+                        color: rgb(121, 91, 91);
+                        width: 2rem;
+                        height: 2rem;
+                    }
+                    
+                    .MuiFormControl-root, .MuiOutlinedInput-root{
+                        width: 95%;
+                        height: 100%;
+                    }
+                }
+            
+            }
+     
+        }
+    }
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+

@@ -1,0 +1,66 @@
+.signup-container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('./assets/signup_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    .signup-form-container{
+        min-height: 80vh;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 25px;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgb(138, 134, 134), 0 6px 20px 0 rgb(153, 150, 150);
+
+        form{
+            width: 80%;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+
+            .MuiFormControl-root{
+                min-width: 100% ;
+            }
+        }
+    }
+}
+
+@media(min-width : 760px){
+    .signup-container{
+        .signup-form-container{
+            width: 70%;
+        }
+    }
+}
+
+@media(min-width : 960px){
+    .signup-container{
+        .signup-form-container{
+            width: 60%;
+            min-height: 60vh;
+
+            form{
+                min-height: 50vh;
+            }
+        }
+    }
+}
+
+@media(min-width : 1200px){
+    .signup-container{
+        .signup-form-container{
+            width: 40%;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+.dark-theme{
+    background-color: rgb(0, 0, 14);
+    color: rgb(215, 240, 248);
+}
+.light-theme{
+    background-color: rgb(207, 236, 246);
+    color: rgb(0, 0, 37);
+}
+
+.dashboard-container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .dashboard-links{
+        width: 100%;
+        height: 10vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: inherit;
+        color: inherit;
+        z-index: 1;
+        
+        .dark-theme{
+            color: inherit;
+            background-color: inherit;
+        }
+
+         .light-theme{
+            color: inherit;
+            background-color: inherit;
+        }
+        .MuiButton-root{
+            color: inherit;
+        }
+    }
+
+    main{
+        width: 100%;
+        min-height: 90vh;
+        margin-top: 10vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .light-theme{
+        background-color: lightblue;
+        color: rgb(3, 0, 39);
+    }
+
+    .dark-theme{
+        background-color: rgb(3, 0, 39);
+        color: rgb(203, 241, 253);
+    }
+}
+
+
+@import '../chats/chatlist/ChatList';
+@import '../chats/chatboard/ChatBoard';
+@import '../chats/chatinput/ChatInput';
