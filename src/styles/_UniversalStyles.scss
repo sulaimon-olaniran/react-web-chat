@@ -170,11 +170,8 @@ body{
                 height: 7%;
                 display: flex;
                 justify-content: center;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
 
-                // #outlined-basic{
-                //     text-transform: ;
-                // }
 
                 .MuiInputBase-root{
                     color: rgb(248, 215, 203);
@@ -213,12 +210,13 @@ body{
      
         }
     }
-    .selector:not(*:root), .chat-board-container {
-        min-height: 90vh;
-        .chat-board-messages{
-            min-height: 80vh;
-        }
-      }
+    // .selector:not(*:root), .chat-board-container {
+    //     margin-top: 10vh;
+    //     min-height: 90vh;
+    //     .chat-board-messages{
+    //         min-height: 80vh;
+    //     }
+    //   }
 }
 
 a{

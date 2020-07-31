@@ -40,21 +40,29 @@ const ChatBoard = () => {
     const classes = useStyles()
     const chatContainer = useRef(null)
     const fullScreenRef = useRef(null)
-    const [fullScreenMode, setfullScreenMode] = useState(false)
 
     const getSelectedChat = (chat) => {
         return chat.interloctors.includes(selectedUser.id)
     }
 
+    const myDocument = fullScreenRef.current
+
     const closeChatBoard = () => {
         setOpenChat(false)
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
     }
 
     const selectedChat = chatMessages.filter(getSelectedChat)
     //console.log(selectedChat)
-    const handle = useFullScreenHandle().enter()
-
-    //openChat && document.documentElement.requestFullscreen()
 
     useEffect(() => {
         const container = chatContainer.current
@@ -62,23 +70,27 @@ const ChatBoard = () => {
             container.scrollTo(0, container.scrollHeight)
         }
 
-    }, [selectedChat, selectedUser])
+        return () => {
+            fullScreenRef.current = false
+        }
+
+    }, [selectedChat, openChat])
 
     return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={openChat}
-            onClose={closeChatBoard}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Slide direction="down" in={openChat} mountOnEnter unmountOnExit>
-                <div className={`chat-board-container ${chatThemeClass}`}>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={openChat}
+                onClose={closeChatBoard}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Slide direction="down" in={openChat} mountOnEnter unmountOnExit>
+                    <div className={`chat-board-container ${chatThemeClass}`} ref={fullScreenRef}>
                         <div className="chat-board-title">
                             <ArrowBackIcon onClick={closeChatBoard} fontSize="large" />
                             <div className="chat-board-title-profile">
@@ -104,11 +116,10 @@ const ChatBoard = () => {
                             </div>
                             <ChatInput userName={userProfile && userProfile.userName} friendName={selectedUser && selectedUser.userName} selectedChat={selectedChat} />
                         </div>
-                </div>
-            </Slide>
+                    </div>
+                </Slide>
 
-        </Modal>
-
+            </Modal>
     )
 }
 

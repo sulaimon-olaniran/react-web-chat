@@ -11,6 +11,7 @@ import DoneIcon from '@material-ui/icons/Done'
 import { makeStyles } from '@material-ui/core/styles'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { ProfileContext } from '../../../context/ProfileContext'
+//import { FullScreen, useFullScreenHandle } from "react-full-screen"
 
 const useStyles = makeStyles((theme) => ({
     xsmall: {
@@ -25,9 +26,25 @@ const ChatList = () => {
     const { appUsers, setSelectedUser, setOpenChat } = useContext(FetchDataContext)
     const { chatMessages, userProfile } = useContext(ProfileContext)
     const classes = useStyles();
+
+    const elem = document.documentElement
     const handleViewChatBoard = (user) => {
         setOpenChat(true)
         setSelectedUser(user)
+
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        }
+        else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+        }
+        else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            elem.webkitRequestFullscreen();
+        }
+        else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+        }
+
     }
 
     //const setActiveColor = online ? "online" : "offline"
@@ -55,8 +72,8 @@ const ChatList = () => {
                                                         primary={
                                                             <div className="chat-list-name">
                                                                 <p>{user.userName}</p>
-                                                                <FiberManualRecordIcon 
-                                                                className={user.isActive ? 'online' : 'offline'} />
+                                                                <FiberManualRecordIcon
+                                                                    className={user.isActive ? 'online' : 'offline'} />
                                                             </div>
                                                         }
                                                         secondary={

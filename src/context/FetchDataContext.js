@@ -1,10 +1,12 @@
 import React, { createContext, useState, useEffect, useRef } from 'react'
-import { db } from '../firebase/Firebase'
+import { db, auth } from '../firebase/Firebase'
+//import { FullScreen, useFullScreenHandle } from "react-full-screen"
 
 export const FetchDataContext = createContext()
 
 
 const FetchDataContextProvider = ({ children }) => {
+
     const [usersFetch, setUsersFetch] = useState(true)
     const [appUsers, setAppUsers] = useState([])
 
@@ -15,7 +17,7 @@ const FetchDataContextProvider = ({ children }) => {
     const [isDarkTheme, setIsDarkTheme] = useState(false)
     const mountedRef = useRef(true)
 
-    const handleTheme = () =>{
+    const handleTheme = () => {
         setIsDarkTheme(!isDarkTheme)
     }
 
@@ -37,16 +39,20 @@ const FetchDataContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        getAppUsers()
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                getAppUsers()
+            }
+        })
+
         return () => {
             mountedRef.current = false
-            
         }
     }, [])
 
     return (
         <FetchDataContext.Provider value={{
-             viewProfile, setViewProfile, selectedUser, handleTheme, isDarkTheme,
+            viewProfile, setViewProfile, selectedUser, handleTheme, isDarkTheme,
             setSelectedUser, openChat, setOpenChat, appUsers, themeClass, chatThemeClass
 
         }}>
