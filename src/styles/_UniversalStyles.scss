@@ -68,6 +68,11 @@ body{
     }
     .chat-board-container{
         min-height: 100vh;
+        @supports (-webkit-appearance: none){
+            .os-android & {
+                min-height: calc(100vh - 56px);
+            }
+        }
         width: 100%;
         outline: none;
 
