@@ -63,6 +63,21 @@
     }
 }
 
+@media(min-width : 1200px) {
+    .dashboard-container{
+        background-image: url('./assets/dashboard_background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        .dashboard-links{
+            border-bottom: 1px solid saddlebrown;
+        }
+        main{
+            width: 60%;
+        }
+    }
+}
+
 
 @import '../chats/chatlist/ChatList';
 @import '../chats/chatboard/ChatBoard';

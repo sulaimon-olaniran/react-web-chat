@@ -1,8 +1,9 @@
 .each-user-container{
-    width: 30%;
+    width: 7rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
     height: 8rem;
+    cursor: pointer;
 }

@@ -60,17 +60,22 @@ body{
     .chat-dark-theme{
         background-color: rgb(29, 29, 29);
         color: rgb(233, 233, 233);
+        background-image: url('./assets/darkboard_container.jpg');
     }
 
     .chat-light-theme{
         background-color: lightgray;
         color: rgb(53, 53, 53);
+        background-image: url('./assets/lightboard_background.jpg');
     }
     
     .chat-board-container{
         height: 100%;
         width: 100%;
         outline: none;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
 
         .chat-board-title{
             width: 100%;
@@ -230,5 +235,9 @@ a{
 
 .offline{
     color: red;
+}
+
+.MuiSvgIcon-root{
+    cursor: pointer;
 }
 
