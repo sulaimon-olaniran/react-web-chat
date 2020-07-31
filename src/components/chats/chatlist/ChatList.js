@@ -27,24 +27,9 @@ const ChatList = () => {
     const { chatMessages, userProfile } = useContext(ProfileContext)
     const classes = useStyles();
 
-    const elem = document.documentElement
     const handleViewChatBoard = (user) => {
         setOpenChat(true)
         setSelectedUser(user)
-
-        // if (elem.requestFullscreen) {
-        //     elem.requestFullscreen();
-        // }
-        // else if (elem.mozRequestFullScreen) { /* Firefox */
-        //     elem.mozRequestFullScreen();
-        // }
-        // else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-        //     elem.webkitRequestFullscreen();
-        // }
-        // else if (elem.msRequestFullscreen) { /* IE/Edge */
-        //     elem.msRequestFullscreen();
-        // }
-
     }
 
     //const setActiveColor = online ? "online" : "offline"

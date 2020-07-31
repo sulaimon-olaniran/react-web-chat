@@ -118,7 +118,6 @@ const DashBoard = ({ history }) => {
             <main className={`${themeClass}`}>
                 {mainComponentDisplayed}
             </main>
-            <ChatBoard />
         </div>
     )
 }

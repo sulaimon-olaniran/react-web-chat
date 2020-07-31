@@ -9,6 +9,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ChatIcon from '@material-ui/icons/Chat'
 import firebase, { db } from '../../../../firebase/Firebase'
 import { ProfileContext } from '../../../../context/ProfileContext'
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -139,7 +140,7 @@ const EachUserProfile = () => {
                     <div className={`user-profile-view ${themeClass}`}>
                         <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.large} />
                         <div className="user-profile-details">
-                            <p>{selectedUser.name} ({selectedUser.userName})</p>
+                            <p>{selectedUser.name} ({selectedUser.userName}) <FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} /></p>
                             {selectedUser.state !== '' && selectedUser.country !== '' && <p>{selectedUser.state}, {selectedUser.country}</p>}
                             {selectedUser.about !== '' && <p>{selectedUser.about}</p>}
                         </div>

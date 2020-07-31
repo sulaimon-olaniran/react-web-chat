@@ -8,6 +8,7 @@ import EachUserProfile from './users/eachuser/userprofile/EachUserProfile'
 import { FetchDataContext } from '../context/FetchDataContext'
 import { ProfileContext } from '../context/ProfileContext'
 import AppLoader from './loader/AppLoader'
+import ChatBoard from './chats/chatboard/ChatBoard'
 //import { auth } from '../firebase/Firebase'
 
 
@@ -15,7 +16,7 @@ import AppLoader from './loader/AppLoader'
 
 const Components = () => {
     const { profileLoading, chatLoading, authComplete, loggedIn } = useContext(ProfileContext)
-    const { appUsers } = useContext(FetchDataContext)
+    const { appUsers, openChat } = useContext(FetchDataContext)
     const yes = true
     if ( !authComplete || profileLoading || chatLoading ) return <AppLoader />
     return (
@@ -27,6 +28,7 @@ const Components = () => {
                 <Route exact path="/signin" component={FormikSignInPage} />
             </Switch>
             { loggedIn && <EachUserProfile />}
+            {openChat && <ChatBoard />}
         </React.Fragment>
     )
 }
