@@ -122,7 +122,7 @@ body{
                 max-height: 93%;
                 padding-top: 10px;
                 margin-top: 5rem;
-                overflow-y: scroll;
+                overflow: hidden;
             
                 .each-message-container{
                     min-width: 90%;

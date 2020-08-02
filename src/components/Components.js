@@ -15,15 +15,16 @@ import ChatBoard from './chats/chatboard/ChatBoard'
 
 
 const Components = () => {
-    const { profileLoading, chatLoading, authComplete, loggedIn } = useContext(ProfileContext)
+    const {authComplete, loggedIn, error, isAuth } = useContext(ProfileContext)
     const { appUsers, openChat } = useContext(FetchDataContext)
+    const text = "Authenticating User"
     const yes = true
-    if ( !authComplete || profileLoading || chatLoading ) return <AppLoader />
+    if ( !authComplete ) return <AppLoader loading={isAuth} error={error} text={text} />
     return (
         <React.Fragment>
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/dashboard" component={DashBoard} />
+                <Route exact path="/dashboard" component={ authComplete && DashBoard} />
                 <Route exact path="/signup" component={() => <FormikSignUpPage users={appUsers} />} />
                 <Route exact path="/signin" component={FormikSignInPage} />
             </Switch>

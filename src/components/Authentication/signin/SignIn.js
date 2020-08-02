@@ -15,6 +15,7 @@ const SignInPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, 
     const handleChange = (event) => {
         setChecked(event.target.checked)
     }
+    //if (auth.currentUser === null) return <Redirect to="/dashboard" />
     return (
         <div className={`signin-container`}>
             <div className="signin-form-container">
@@ -60,11 +61,12 @@ const FormikSignInPage = withFormik({
         setStatus(true)
 
         auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
+            .then((res) => {
                // analytics.logEvent('login')
+                //console.log(res)
                 setSubmitting(false)
                 setTimeout(() => {
-                    props.history.push('/dashboard')
+                   props.history.push('/dashboard')
                 }, 1000)
             }).catch(error => {
                 setSubmitting(false)

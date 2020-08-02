@@ -12,7 +12,6 @@ const ProfileContextProvider = ({ children }) => {
     const [chatLoading, setChatLoading] = useState(false)
     const [chatMessages, setChatMessages] = useState([])
 
-
     const [loggedIn, setLoggedIn] = useState(false)
     const [isAuth, setIsAuth] = useState(false)
     const [authComplete, setAuthComplete] = useState(false)
@@ -116,10 +115,10 @@ const ProfileContextProvider = ({ children }) => {
 
         return () => {
             mountedRef.current = false
-            console.log('hello world')
+           // console.log('hello world')
         }
 
-    }, [auth])
+    }, [])
 
     return (
         <ProfileContext.Provider value={{

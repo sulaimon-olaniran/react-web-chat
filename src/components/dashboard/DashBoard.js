@@ -19,6 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { FetchDataContext } from '../../context/FetchDataContext'
 import { makeStyles } from '@material-ui/core/styles'
+import AppLoader from '../loader/AppLoader'
 
 
 const DashBoard = ({ history }) => {
@@ -36,10 +37,25 @@ const DashBoard = ({ history }) => {
 
     const styles = useStyles()
 
-    // useEffect(() =>{
-    //       getUserProfile()
-    //       getUserChats()
-    // }, [])
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            //if (!mountedRef.current) return null
+            if (user) {
+              if (userProfile !== null){
+                getUserProfile()
+                getUserChats()
+
+              }
+            } else {
+                //setFetching(false)     
+            }
+        })
+
+        return () => {
+           // mountedRef.current = false
+        }
+
+    }, [])
 
     const handleMainComponent = (component) => {
         setMainComponent(component)
@@ -56,12 +72,12 @@ const DashBoard = ({ history }) => {
     };
 
     const logUserOut = () => {
-        console.log("hello")
         setAnchorEl(null)
         auth.signOut()
         history.push('/')
     }
 
+    //console.log("dashboard called when not logged in")
     //conditionally rendering components to main screen based on button clicked
     let mainComponentDisplayed = null
 
@@ -82,9 +98,14 @@ const DashBoard = ({ history }) => {
             mainComponentDisplayed = <ChatList />;
 
     }
-
+   // console.log(auth.currentUser)
+    
+    const loading = profileLoading || chatLoading ? true : false
+    const error = userProfile !== null ? false : true
+    const text = "Fetching User Profile"
+   
+    if (profileLoading || chatLoading) return <AppLoader error={error} loading={loading} text={text} />
     if (auth.currentUser === null) return <Redirect to="/signin" />
-    if (profileLoading || chatLoading) return <h1>Dashboard loading</h1>
     return (
         <div className={`dashboard-container ${themeClass}`}>
 
