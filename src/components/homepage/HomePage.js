@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import welcome_image_one from './assets/welcome_image_one.jpg'
 import { NavLink } from 'react-router-dom'
+import AboutSection from './sections/about/AboutSection'
 
 
 const HomePage = () => {
@@ -22,6 +23,8 @@ const HomePage = () => {
                 </div>
 
             </div>
+
+            <AboutSection />
 
         </div>
     )

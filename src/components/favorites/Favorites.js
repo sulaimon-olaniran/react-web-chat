@@ -10,6 +10,8 @@ const FavoriteUsers = () => {
     //console.log(userProfile)
     return (
         <div className="chat-users-container">
+            {
+             userProfile.favorites.length > 0 ?
              <div className="users-listing-container">
             {
                 appUsers.map((user) => {
@@ -22,6 +24,12 @@ const FavoriteUsers = () => {
                 })
             }
          </div>
+         :
+         <div className="no-user-available">
+             <h1>You currently have no favorite user(s)</h1>
+             <p>Please head over to users sections to add a user as your favorite by clicking on the love icon.</p>
+         </div>
+        }
         </div>
     )
 }

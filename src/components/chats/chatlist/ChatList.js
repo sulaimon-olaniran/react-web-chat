@@ -36,72 +36,99 @@ const ChatList = () => {
 
     return (
         <div className="chats-list-container">
-            <List>
-                {
-                    chatMessages.map((userChat) => {
-                        return userChat.interloctors.map((interloctor) => {
-                            if (interloctor !== userProfile.id) {
-                                //console.log(inter)
-                                return appUsers.map((user) => {
-                                    //console.log(user)
+            {
+                chatMessages.length > 0 ?
+                    <List>
+                        {
+                            chatMessages.map((userChat) => {
+                                return userChat.interloctors.map((interloctor) => {
+                                    if (interloctor !== userProfile.id) {
+                                        //console.log(inter)
+                                        return appUsers.map((user) => {
+                                            //console.log(user)
 
-                                    if (user.id === interloctor) {
-                                        return (
-                                            userChat.messages.length > 0 || userChat.createdBy === userProfile.userName ?
-                                                <ListItem key={user.id} onClick={() => handleViewChatBoard(user)}>
-                                                    <ListItemAvatar>
-                                                        <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
-                                                    </ListItemAvatar>
+                                            if (user.id === interloctor) {
+                                                return (
+                                                    userChat.messages.length > 0 || userChat.createdBy === userProfile.userName ?
+                                                        <ListItem key={user.id} onClick={() => handleViewChatBoard(user)}>
+                                                            <ListItemAvatar>
+                                                                <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
+                                                            </ListItemAvatar>
 
-                                                    <ListItemText
-                                                        primary={
-                                                            <div className="chat-list-name">
-                                                                <p>{user.userName}</p>
-                                                                <FiberManualRecordIcon
-                                                                    className={user.isActive ? 'online' : 'offline'} />
-                                                            </div>
-                                                        }
-                                                        secondary={
-                                                            <Typography component="div">
-                                                                {
-                                                                    userChat.messages.length > 0 ?
-                                                                        <span>
-                                                                            { userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
-                                                                            <p style={{color:"light-grey"}}>image file</p>
-                                                                            :
-                                                                            <p>
-                                                                                {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
-                                                                                {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
-                                                                            </p>
-                                                                            }
-                                                                            <small>{moment(userChat.messages[userChat.messages.length - 1].timeStamp).calendar()}</small>
-                                                                        </span>
-                                                                        :
-                                                                        <small>Say hello to your new chat...</small>
+                                                            <ListItemText
+                                                                primary={
+                                                                    <div className="chat-list-name">
+                                                                        <p>{user.userName}</p>
+                                                                        <FiberManualRecordIcon
+                                                                            className={user.isActive ? 'online' : 'offline'} />
+                                                                    </div>
                                                                 }
-                                                            </Typography>
-                                                        }
-                                                    />
-                                                </ListItem>
-                                                : null
-                                        )
-                                    } else return null
+                                                                secondary={
+                                                                    <Typography component="div">
+                                                                        {
+                                                                            userChat.messages.length > 0 ?
+                                                                                <span>
+                                                                                    {userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
+                                                                                        <p style={{ color: "light-grey" }}>image file</p>
+                                                                                        :
+                                                                                        <p>
+                                                                                            {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
+                                                                                        </p>
+                                                                                    }
+                                                                                    <small>{moment(userChat.messages[userChat.messages.length - 1].timeStamp).calendar()}</small>
+                                                                                </span>
+                                                                                :
+                                                                                <small>Say hello to your new chat...</small>
+                                                                        }
+                                                                    </Typography>
+                                                                }
+                                                            />
+                                                        </ListItem>
+                                                        : null
+                                                )
+                                            } else return null
 
+                                        })
+                                    } else {
+                                        return null
+                                    }
                                 })
-                            } else {
-                                return null
-                            }
-                        })
-                    })
+                            })
 
-                }
-            </List>
+                        }
+                    </List>
+                    :
+                    <div className="no-chats-content">
+                        <h1>Welcome {userProfile.name}</h1>
+                        <h2>Thank you for choosing OS-Messanger</h2>
+                        <p>
+                            You currently have no chats,
+                            please visit the Users section
+                            and choose a user to chat with.
+                        </p>
+                        <p>
+                            To edit your profile please click on
+                            human icon on the far left of your screen
+                            and select profile.
+                        </p>
+                    </div>
+
+
+            }
 
 
         </div>
     )
 
+
+
 }
+
+
+// const RenderOnZeroChats = () =>{
+
+// }
 
 
 export default ChatList

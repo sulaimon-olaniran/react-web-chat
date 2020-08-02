@@ -8,17 +8,19 @@ import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import { auth, analytics } from '../../../firebase/Firebase'
-
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone'
 
 const SignInPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, status }) => {
     const [checked, setChecked] = useState(false)
     const handleChange = (event) => {
         setChecked(event.target.checked)
     }
-    //if (auth.currentUser === null) return <Redirect to="/dashboard" />
+
+    if (auth.currentUser !== null) return <Redirect to="/dashboard" />
     return (
         <div className={`signin-container`}>
             <div className="signin-form-container">
+            <h1>OS-MESSENGER <ForumTwoToneIcon fontSize="large" color="primary" /></h1>
                 <Form >
                     <Field as={TextField} type="email" name="email" label="Email"
                         error={touched.email && errors.email ? true : false}
@@ -34,7 +36,7 @@ const SignInPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, 
                         label="I'm not a Robot"
                     />
 
-                    <Field type="submit" as={Button} variant="contained" color="secondary" id="button" disabled={isSubmitting}>Sign In</Field>
+                    <Field type="submit" as={Button} variant="contained" color="secondary" id="button" disabled={isSubmitting || !checked}>Sign In</Field>
                     {status && status.error && <small style={{ color: "red" }}>{status && status.error}</small>}
                 </Form>
                 <p>Don't have an account? <NavLink to="/signup"><Button color="primary" size="small">Sign Up</Button></NavLink></p>

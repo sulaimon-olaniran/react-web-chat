@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import { withFormik, Field, Form } from 'formik'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -8,6 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import { auth, db } from '../../../firebase/Firebase'
 import MyPasswordField from '../MyPasswordField'
 import { SignUpYupValidation } from '../ValidationShchema'
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone'
 
 
 const SignUpPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, status }) => {
@@ -15,10 +16,11 @@ const SignUpPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, 
     const handleChange = (event) => {
         setChecked(event.target.checked)
     }
-
+    if (auth.currentUser !== null) return <Redirect to="/dashboard" />
     return (
         <div className={`signup-container`} >
             <div className="signup-form-container">
+            <h1>OS-MESSENGER <ForumTwoToneIcon fontSize="large" color="primary" /></h1>
                 <Form>
 
                     <Field as={TextField} type="Text" name="firstName" label="First Name"
@@ -52,10 +54,10 @@ const SignUpPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, 
                         label="I'm not a Robot"
                     />
 
-                    <Field type="submit" as={Button} variant="contained" color="secondary" id="button" disabled={isSubmitting}>Join Now</Field>
+                    <Field type="submit" as={Button} variant="contained" color="secondary" id="button" disabled={isSubmitting || !checked}>Join Now</Field>
                     {status && status.error && <small style={{ color: "red" }}>{status && status.error}</small>}
                 </Form>
-                <p>Already a User ? <NavLink to="/signin"><Button color="primary" size="small">Log In</Button></NavLink></p>
+                <p>Already a User ? <NavLink to="/signin"><Button color="primary" size="small" >Log In</Button></NavLink></p>
             </div>
 
         </div>
@@ -74,9 +76,9 @@ const FormikSignUpPage = withFormik({
 
     validationSchema: SignUpYupValidation,
 
-    handleSubmit(values, { setSubmitting, setStatus, props }) {
+    handleSubmit(values, {props, setSubmitting, setStatus }) {
         const { firstName, lastName, email, password, userName } = values
-        const { history, users } = props
+        const { users } = props
         setSubmitting(true)
         setStatus({ loading: true })
 
@@ -115,10 +117,7 @@ const FormikSignUpPage = withFormik({
 
                 }).then(() => {
                     setSubmitting(false)
-                    setTimeout(() => {
-                        setStatus({ loading: false })
-                        history.push('/dashboard')
-                    }, 1000)
+                    setStatus({ loading: false })
 
                 }).catch((error) => {
                     console.log(error)

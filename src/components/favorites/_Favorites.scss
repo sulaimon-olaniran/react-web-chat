@@ -1,0 +1,27 @@
+//  USING SAME CLASS NAME AND STYLES FROM CHAT-USERS SCSS FILE
+
+.chat-users-container{
+
+    .no-user-available{
+        width: 100%;
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        h1{
+            font-size: 1.2rem;
+            text-transform: capitalize;
+            color: rgb(97, 12, 2);
+        }
+
+        p{
+            width: 90%;
+            text-align: center;
+            color: inherit;
+            margin-top:10px ;
+        }
+
+    }
+}

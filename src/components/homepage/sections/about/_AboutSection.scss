@@ -1,0 +1,90 @@
+.about-section-container{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 0;
+
+    .about-section-description{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        .description-text-container{
+            width: 100%;
+            height: 10rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            
+
+            h1{
+                font-size: 1.3rem;
+                text-align: center;
+                color: rgb(192, 89, 78);
+                span{
+                    color: rgb(119, 12, 0);
+                    font-size: 1.5rem;
+                }
+            }
+
+            p{
+                text-align: center;
+                padding: 10px;
+                color: rgb(71, 71, 71);
+            }
+
+        }
+
+        .description-image-container{
+            width: 100%;
+            min-height: 30rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+
+            .each-image-container{
+              width: 45%;
+              height: 25rem;
+              img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+              }
+            }
+
+        }
+
+        .button-link-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+@media(min-width : 760px){
+   .about-section-container{
+       .about-section-description{
+           .description-image-container{
+               width: 70%;
+           }
+       }
+   }
+}
+
+@media(min-width : 1200px){
+    .about-section-container{
+        .about-section-description{
+            width: 50%;
+            .description-image-container{
+                width: 100%;
+            }
+        }
+    }
+ }

@@ -94,9 +94,6 @@ const EachUserProfile = () => {
     }
 
 
-
-
-
     const addUserToFavorites = () => {
         const id = userProfile && userProfile.id
         db.collection('users').doc(id)
@@ -105,9 +102,6 @@ const EachUserProfile = () => {
 
             }, { merge: true })
     }
-
-
-
 
 
 
