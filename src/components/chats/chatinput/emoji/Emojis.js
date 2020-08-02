@@ -15,9 +15,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ChatEmojis = ({ openEmoji, setOpenEmoji, setMessage }) => {
+const ChatEmojis = ({ setMessage }) => {
     const classes = useStyles()
     const [emojiGroup, setSelectedEmojiGroup] = useState([])
+    const [openEmoji, setOpenEmoji] = useState(false)
+
+
+    const handleOpenEmoji = () => {
+        setOpenEmoji(true)
+    }
     //console.log(emoji)
 
 
@@ -80,52 +86,60 @@ const ChatEmojis = ({ openEmoji, setOpenEmoji, setMessage }) => {
     const emojiHeaders = [smileys_emotion, people_body, animals_nature, food_drink, travel_places, objects, flags, symbols]
     //console.log(emojiHeaders)
     console.log(selectedEmojiGroup)
-    
-    const handleCloseEmoji = () =>{
+
+    const handleCloseEmoji = () => {
         setOpenEmoji(false)
     }
 
     return (
-        <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={openEmoji}
-                onClose={handleCloseEmoji}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
+        <React.Fragment>
+            <span role="img" aria-label="tongouee"
+                className="wave-icon"
+                onClick={handleOpenEmoji}
             >
-        <Slide direction="up" in={openEmoji} mountOnEnter unmountOnExit>
-            <div className="emojis-container">
-                <div className="emojis-headers">
-                    {
-                        emojiHeaders.map((header, i) => {
-                            return (
-                                <span onClick={() => setSelectedEmojiGroup(header[0].group)} key={i}>
-                                    {header[0].char}
-                                </span>
-                            )
-                        })
-                    }
-                </div>
-                <div className="selected-emojis">
-                      {
-                          selectedEmojiGroup.map(emoji =>{
-                              return(
-                                  <span key={emoji.codes} onClick={() => setMessage( prev => prev.concat(emoji.char))}>
-                                      {emoji.char}
-                                  </span>
-                              )
-                          })
-                      }
-                </div>
+                😊
+            </span>
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openEmoji}
+            onClose={handleCloseEmoji}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
+        >
+            <Slide direction="up" in={openEmoji} mountOnEnter unmountOnExit>
+                <div className="emojis-container">
+                    <div className="emojis-headers">
+                        {
+                            emojiHeaders.map((header, i) => {
+                                return (
+                                    <span onClick={() => setSelectedEmojiGroup(header[0].group)} key={i}>
+                                        {header[0].char}
+                                    </span>
+                                )
+                            })
+                        }
+                    </div>
+                    <div className="selected-emojis">
+                        {
+                            selectedEmojiGroup.map(emoji => {
+                                return (
+                                    <span key={emoji.codes} onClick={() => setMessage(prev => prev.concat(emoji.char))}>
+                                        {emoji.char}
+                                    </span>
+                                )
+                            })
+                        }
+                    </div>
 
-            </div>
-        </Slide>
+                </div>
+            </Slide>
         </Modal>
+        </React.Fragment>
     )
 }
 

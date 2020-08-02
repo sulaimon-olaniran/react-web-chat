@@ -44,12 +44,13 @@ const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
         if (e.target.files[0]) {
             setSelectedImage(e.target.files[0])
             setImagePreview(URL.createObjectURL(e.target.files[0]))
-            setOpenPreview(true)
         }
+        setOpenPreview(true)
     }
 
     const handleClosePreview = () => {
         setOpenPreview(false)
+        imagePreview !== null && URL.revokeObjectURL(imagePreview)
     }
 
     const handleCloseAlert = (event, reason) => {

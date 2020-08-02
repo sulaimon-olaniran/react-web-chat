@@ -54,7 +54,11 @@ const ChatInput = ({ userName, selectedChat }) => {
             <div className="chat-input-contents">
                 <div className="image-emoji-container">
                     <SendImage setMessageType={setMessageType} setMessage={setMessage} submitMessage={submitMessage} />
-                    <span role="img" aria-label="tongouee" className="wave-icon" >😊</span>
+                    {/* <span role="img" aria-label="tongouee"
+                        className="wave-icon"
+                       // onClick={setOpenEmoji(true)}
+                    >😊</span> */}
+                <ChatEmojis setMessage={setMessage} />
                 </div>
                 <div className="input-text-container">
                     <TextField id="outlined-basic" variant="outlined" placeholder="type your message..."
@@ -68,7 +72,6 @@ const ChatInput = ({ userName, selectedChat }) => {
                     <SendIcon onClick={() => submitMessage(message, 'text')} />
                 </div>
 
-                <ChatEmojis openEmoji={openEmoji} setOpenEmoji={setOpenEmoji} setMessage={setMessage} />
             </div>
         </div>
     )

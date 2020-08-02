@@ -36,7 +36,11 @@ body{
             .image-emoji-container{
                 width: 15%;
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-between;
+
+                span{
+                    font-size: 1.3rem;
+                }
                 
             }
 
@@ -49,8 +53,8 @@ body{
 
             .MuiSvgIcon-root{
                 color: blue;
-                width: 1.5rem;
-                height: 1.5rem;
+                width: 2rem;
+                height: 2rem;
             }
             .MuiFormControl-root, .MuiOutlinedInput-root{
                 width: 100%;
@@ -62,6 +66,30 @@ body{
     }
 }
 
+
+@media(min-width : 760px) {
+    .chat-input-container{
+
+        .chat-input-contents{
+            .image-emoji-container{
+                span{
+                    font-size: 2rem;
+                    cursor: pointer;
+                }
+            }
+
+        }
+    }
+}
+
+
+@media(min-width : 960px) {
+    body{
+        .chat-input-container{
+            width: 90%;
+        }
+    }
+}
 
 
 @import './emoji/Emojis'

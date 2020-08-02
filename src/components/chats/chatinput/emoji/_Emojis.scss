@@ -1,6 +1,6 @@
 body{
     .emojis-container{
-        min-width: 90%;
+        width: 90%;
         max-height: 80%;
         display: flex;
         flex-direction: column;
@@ -11,6 +11,7 @@ body{
         outline: none;
         overflow-wrap: break-word;
         overflow-y: scroll;
+        border-radius: 15px;
 
         .emojis-headers{
             width: 100%;
@@ -19,6 +20,11 @@ body{
             align-items: center;
             justify-content: space-around;
             border-bottom: 1px solid saddlebrown;
+            
+            span{
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
         }
 
         .selected-emojis{
@@ -29,7 +35,17 @@ body{
             justify-content: space-around;
             span{
                 margin: 10px;
+                cursor: pointer;
             }
+        }
+    }
+}
+
+
+@media(min-width : 960px) {
+    body{
+        .emojis-container{
+            width: 70%;
         }
     }
 }
