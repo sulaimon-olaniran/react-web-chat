@@ -1,0 +1,38 @@
+//THIS STYLING HAS BEEN MOVED TO THE UNIVERSAL SCSS FILE IN STYLES FOLDER UNDER THE BODY ELEMENT
+//IT'S A MODAL, SO THE STYLE CAN BE DETECTED DIRECTLY FROM THE BODY AND DISPLAY CORRECTLY
+
+
+// body{
+//     .user-profile-view{
+//         height: 20rem;
+//         width: 20rem;
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center;
+//         justify-content: center;
+//         outline: none;
+
+//         .user-profile-details{
+//             display: flex;
+//             flex-direction: column;
+//             align-items: center;
+//             justify-content: center;
+//             margin: 10px 0;
+//             color: inherit;
+//         }
+
+//         .profile-actions-container{
+//             width: 60%;
+//             display: flex;
+//             align-items: center;
+//             justify-content: space-around;
+
+//             .favorite{
+//                 color: red;
+//             }
+//             .not-favorite{
+//                 color: white;
+//             }
+//         }
+//     }
+// }

@@ -66,10 +66,14 @@ const ChatList = () => {
                                                                 {
                                                                     userChat.messages.length > 0 ?
                                                                         <span>
+                                                                            { userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
+                                                                            <p style={{color:"light-grey"}}>image file</p>
+                                                                            :
                                                                             <p>
                                                                                 {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
                                                                                 {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
                                                                             </p>
+                                                                            }
                                                                             <small>{moment(userChat.messages[userChat.messages.length - 1].timeStamp).calendar()}</small>
                                                                         </span>
                                                                         :
