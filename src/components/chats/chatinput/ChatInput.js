@@ -9,15 +9,12 @@ import ChatEmojis from './emoji/Emojis'
 const ChatInput = ({ userName, selectedChat }) => {
     const [message, setMessage] = useState('')
     const [messageType, setMessageType] = useState(null)
-    const [openEmoji, setOpenEmoji] = useState(false)
     const docId = selectedChat[0].interloctors.sort().join(':')
 
     const getInputText = (e) => {
         e.keyCode === 13 ? submitMessage(message, 'text') : setMessage(e.target.value)
         e.keyCode === 13 ? submitMessage() : setMessageType('text')
     }
-
-    //const messageValidity = (message) => message && message.replace(/\s/g, '').length
 
     const submitMessage = (message, type) => {
         if (message && message.replace(/\s/g, '').length > 0) {
@@ -37,16 +34,12 @@ const ChatInput = ({ userName, selectedChat }) => {
         }
         else {
             window.navigator.vibrate(200)
-            console.log("message not valid")
-            console.log(message)
+            //console.log("message not valid")
+            //console.log(message)
         }
 
     }
 
-
-    const handleOpenEmoji = () => {
-        setOpenEmoji(true)
-    }
 
     // console.log(message)
     return (
@@ -54,11 +47,7 @@ const ChatInput = ({ userName, selectedChat }) => {
             <div className="chat-input-contents">
                 <div className="image-emoji-container">
                     <SendImage setMessageType={setMessageType} setMessage={setMessage} submitMessage={submitMessage} />
-                    {/* <span role="img" aria-label="tongouee"
-                        className="wave-icon"
-                       // onClick={setOpenEmoji(true)}
-                    >😊</span> */}
-                <ChatEmojis setMessage={setMessage} />
+                    <ChatEmojis setMessage={setMessage} />
                 </div>
                 <div className="input-text-container">
                     <TextField id="outlined-basic" variant="outlined" placeholder="type your message..."

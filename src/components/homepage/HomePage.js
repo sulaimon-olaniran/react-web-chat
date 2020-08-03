@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button'
 import welcome_image_one from './assets/welcome_image_one.jpg'
 import { NavLink } from 'react-router-dom'
 import AboutSection from './sections/about/AboutSection'
+import FooterSection from './sections/footer/FooterSection'
 
 
 const HomePage = () => {
@@ -11,7 +12,7 @@ const HomePage = () => {
 
             <div className="welcome-page">
                 <div className="welcome-texts">
-                    <h1>Welcome To OS-Chats</h1>
+                    <h1>Welcome To <span>OS-Messenger</span></h1>
                     <p>Get ready to meet new amazing friends on the web</p>
                     <NavLink exact to="/dashboard">
                         <Button variant="contained" color="primary">Start Chatting</Button>
@@ -25,6 +26,7 @@ const HomePage = () => {
             </div>
 
             <AboutSection />
+            <FooterSection />
 
         </div>
     )

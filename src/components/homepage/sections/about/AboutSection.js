@@ -9,7 +9,7 @@ const AboutSection = () => {
         <div className="about-section-container">
             <div className="about-section-description">
                 <div className="description-text-container">
-                    <h1>Join Other <span>OS-MESSANGERs</span> Today</h1>
+                    <h1>Join <span>OS-MESSANGER</span> Today</h1>
                     <p>
                         <NavLink exact to="/dashboard"> <Button color="primary">Sign Up</Button></NavLink>Today
                         and gain access to multiple users on the web, make new friends from all around the world

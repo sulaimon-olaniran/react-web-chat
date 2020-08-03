@@ -97,7 +97,7 @@ const ChatBoard = () => {
                         <div className="chat-board-messages"  >
                             <ScrollToBottom className="messages-container" >
                                 {
-                                    selectedChat.length > 0 && selectedChat[0].messages.map((message, i) => {
+                                    selectedChat.length > 0 ? selectedChat[0].messages.map((message, i) => {
                                         const alignMessage = message.sender.toLowerCase() === userProfile.userName.toLowerCase() ? "align-message-right" : "align-message-left"
                                         return (
                                             <div className={`each-message-container ${alignMessage}`} key={i} >
@@ -147,6 +147,8 @@ const ChatBoard = () => {
                                             </div>
                                         )
                                     })
+                                    :
+                                    <p>Let {selectedUser.userName} know you're interested in a chat by sending the first message</p>
                                 }
                                 {!sticky && <button onClick={scrollToBottom}>Click</button>}
                             </ScrollToBottom>

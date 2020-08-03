@@ -22,8 +22,17 @@
             align-items: center;
             justify-content: center;
 
+            h1{
+                font-size: 1.4rem;
+                span{
+                    color: rgb(155, 28, 13);
+                    text-transform: uppercase;
+                }
+            }
+
             h1, p{
                 margin-bottom: 10px;
+                text-align: center;
             }
         }
 
@@ -43,7 +52,7 @@
 
 
 @import './sections/about/AboutSection';
-
+@import './sections/footer/FooterSection';
 
 
 

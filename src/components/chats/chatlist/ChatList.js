@@ -73,7 +73,12 @@ const ChatList = () => {
                                                                                         :
                                                                                         <p>
                                                                                             {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
+                                                                                            
                                                                                             {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
+                                                                                            
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender !== userProfile ?
+                                                                                                userChat.messageRead === false && <p>unread message(s)</p> : null
+                                                                                            }
                                                                                         </p>
                                                                                     }
                                                                                     <small>{moment(userChat.messages[userChat.messages.length - 1].timeStamp).calendar()}</small>

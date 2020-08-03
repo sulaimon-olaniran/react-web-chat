@@ -112,7 +112,8 @@ const FormikSignUpPage = withFormik({
                         state: "",
                         displayImage: "",
                         about: "",
-                        isActive: true
+                        isActive: true,
+                        lastSeen : null
                     })
 
                 }).then(() => {

@@ -22,6 +22,7 @@ const ProfileContextProvider = ({ children }) => {
     const setUserActiveFalse = () => {
         db.collection("users").doc(auth.currentUser.uid).update({
             isActive: false,
+            lastSeen : Date.now()
         })
             .then(() => {
                 console.log('bye bye ohhh ohh')
