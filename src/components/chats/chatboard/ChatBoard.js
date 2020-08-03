@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from 'react'
+import React, { useRef, useContext, useState, useEffect } from 'react'
 import ChatInput from '../chatinput/ChatInput'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,6 +13,7 @@ import DoneIcon from '@material-ui/icons/Done'
 import { ProfileContext } from '../../../context/ProfileContext'
 import ScrollToBottom, { useSticky, useScrollToBottom } from 'react-scroll-to-bottom'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import { db } from '../../../firebase/Firebase'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +41,7 @@ const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const classes = useStyles()
-    const chatContainer = useRef(null)
+    //const chatContainer = useRef(null)
     const [sticky] = useSticky()
     const scrollToBottom = useScrollToBottom()
 
@@ -65,8 +66,19 @@ const ChatBoard = () => {
     }
 
     const selectedChat = chatMessages.filter(getSelectedChat)
-    //console.log(selectedChat)
-    const container = chatContainer.current
+
+
+    useEffect(() => {
+        console.log(selectedChat)
+        db.collection("chats").doc(selectedChat[0].chatId).update({
+            messageRead: true,
+        })
+            .then(() => {
+                console.log('read now true')
+            })
+            .catch(error => console.log(error))
+    }, [])
+
 
     return (
         <React.Fragment>
@@ -84,16 +96,21 @@ const ChatBoard = () => {
             >
                 <Slide direction="down" in={openChat} mountOnEnter unmountOnExit>
                     <div className={`chat-board-container ${chatThemeClass}`}>
+
                         <div className="chat-board-title">
                             <ArrowBackIcon onClick={closeChatBoard} fontSize="large" />
+
                             <div className="chat-board-title-profile">
                                 <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small} />
-                                <p>
-                                    {selectedUser.userName}
-                                    <FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} />
-                                </p>
+                                <span>
+                                    <p> {selectedUser.userName}<FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} /></p>
+                                    {selectedUser.isActive === false ? <small>Last seen; {moment(selectedUser.lastSeen).calendar()}</small> 
+                                    : <small style={{color:'darkgreen', fontSize:"1rem"}}>Active</small>}
+                                </span>
                             </div>
+
                         </div>
+
                         <div className="chat-board-messages"  >
                             <ScrollToBottom className="messages-container" >
                                 {
@@ -124,12 +141,12 @@ const ChatBoard = () => {
                                                                         <div className="view-image-modal">
                                                                             <img src={selectedImg} alt="Viewed Img File" />
                                                                         </div>
-                                                                        <Button 
-                                                                          onClick={closeImageModal}
-                                                                          color="primary"
-                                                                          variant="contained"
+                                                                        <Button
+                                                                            onClick={closeImageModal}
+                                                                            color="primary"
+                                                                            variant="contained"
                                                                         >
-                                                                        Close
+                                                                            Close
                                                                         </Button>
                                                                     </div>
 
@@ -147,8 +164,8 @@ const ChatBoard = () => {
                                             </div>
                                         )
                                     })
-                                    :
-                                    <p>Let {selectedUser.userName} know you're interested in a chat by sending the first message</p>
+                                        :
+                                        <p>Let {selectedUser.userName} know you're interested in a chat by sending the first message</p>
                                 }
                                 {!sticky && <button onClick={scrollToBottom}>Click</button>}
                             </ScrollToBottom>

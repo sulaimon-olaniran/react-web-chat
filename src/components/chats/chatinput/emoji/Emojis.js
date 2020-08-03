@@ -85,7 +85,7 @@ const ChatEmojis = ({ setMessage }) => {
 
     const emojiHeaders = [smileys_emotion, people_body, animals_nature, food_drink, travel_places, objects, flags, symbols]
     //console.log(emojiHeaders)
-    console.log(selectedEmojiGroup)
+    //console.log(selectedEmojiGroup)
 
     const handleCloseEmoji = () => {
         setOpenEmoji(false)

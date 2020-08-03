@@ -32,6 +32,30 @@ const ChatList = () => {
         setSelectedUser(user)
     }
 
+    // const sortedMessages = chatMessages && chatMessages.sort(function(a,b){
+    //     return a.messages[a.messages.length - 1].message.timeStamp  - b.messages[b.messages.length - 1].message.timeStamp
+    // })
+    
+    const sortFunction = (a, b) =>{
+        const comparisonA = a.messages.length > 0 ? a.messages[a.messages.length - 1].timeStamp : a.createdAt
+        const comparisonB = b.messages.length > 0 ? b.messages[b.messages.length - 1].timeStamp : b.createdAt
+        //console.log(comparisonA)
+        //console.log(comparisonB)
+        let comparisonStatus = 0
+        if(comparisonA < comparisonB){
+            comparisonStatus = 1
+        }
+        else 
+        if( comparisonA > comparisonB){
+            comparisonStatus = -1
+        }
+        return comparisonStatus;
+    }
+
+    //console.log(chatMessages)
+
+    //console.log(chatMessages.sort(sortFunction))
+
     //const setActiveColor = online ? "online" : "offline"
 
     return (
@@ -40,7 +64,7 @@ const ChatList = () => {
                 chatMessages.length > 0 ?
                     <List>
                         {
-                            chatMessages.map((userChat) => {
+                            chatMessages.sort(sortFunction).map((userChat) => {
                                 return userChat.interloctors.map((interloctor) => {
                                     if (interloctor !== userProfile.id) {
                                         //console.log(inter)
@@ -76,8 +100,8 @@ const ChatList = () => {
                                                                                             
                                                                                             {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
                                                                                             
-                                                                                            {userChat.messages[userChat.messages.length - 1].sender !== userProfile ?
-                                                                                                userChat.messageRead === false && <p>unread message(s)</p> : null
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender !== userProfile.userName ?
+                                                                                                userChat.messageRead === false && <span style={{color:"red"}}>unread message(s)</span> : null
                                                                                             }
                                                                                         </p>
                                                                                     }

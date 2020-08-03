@@ -99,8 +99,22 @@ body{
                 justify-content: center;
                 width: 80%;
                 height: 100%;
-                P{
-                    margin-left: 5px;
+                
+                span{
+                    width: 70%;
+                    display: flex;
+                    flex-direction: column;
+                    margin-left: 15px;
+
+                    p{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                    }
+
+                    small{
+                        color: orange;
+                    }
                 }
             }
         }
