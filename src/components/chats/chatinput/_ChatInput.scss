@@ -90,6 +90,22 @@ body{
         }
     }
 }
+@media(min-width : 760px) {
+    body{
+        .chat-input-container{
+            .chat-input-contents{
+                .image-emoji-container{
+                    width: 10%;
+
+                    span{
+                        font-size: 1.5rem;
+                        color: rgb(180, 117, 0);
+                    }
+                }
+            }
+        }
+    }
+}
 
 @media(min-width : 1200px) {
     body{

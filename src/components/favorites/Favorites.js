@@ -11,25 +11,27 @@ const FavoriteUsers = () => {
     return (
         <div className="chat-users-container">
             {
-             userProfile.favorites.length > 0 ?
-             <div className="users-listing-container">
-            {
-                appUsers.map((user) => {
+                userProfile.favorites.length > 0 ?
+                    <div className="users-listing-container">
+                        {
+                            appUsers.map((user) => {
 
-                    return userProfile.favorites.includes(user.userName)
-                        &&
-                        <React.Fragment key={user.id}>
-                           <EachUser user={user} />
-                        </React.Fragment>
-                })
+                                return userProfile.favorites.includes(user.userName)
+                                    &&
+                                    <React.Fragment key={user.id}>
+                                        <EachUser user={user} />
+                                    </React.Fragment>
+                            })
+                        }
+                    </div>
+                    :
+                    <div className="no-user-available">
+                        <div className="dark-overlay">
+                            <h1>You currently have no favorite user(s)</h1>
+                            <p>Please head over to users sections to add a user as your favorite by clicking on the love icon.</p>
+                        </div>
+                    </div>
             }
-         </div>
-         :
-         <div className="no-user-available">
-             <h1>You currently have no favorite user(s)</h1>
-             <p>Please head over to users sections to add a user as your favorite by clicking on the love icon.</p>
-         </div>
-        }
         </div>
     )
 }

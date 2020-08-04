@@ -30,6 +30,12 @@ const AboutSection = () => {
                     </div>
                 </div>
 
+                <div className="button-link-container">
+                <NavLink exact to="/signin" >
+                        <Button variant="contained" color="primary">Join Now</Button>
+                </NavLink>
+                </div>
+
             </div>
 
             <div className="about-section-description">

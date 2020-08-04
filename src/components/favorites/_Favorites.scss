@@ -1,4 +1,6 @@
 //  USING SAME CLASS NAME AND STYLES FROM CHAT-USERS SCSS FILE
+// THE STYLES BELOW ARE UNIQUE TO THE FAVORITE COMPONENT ONLY
+//REST OF THE STYLES ARE BASED ON STYLES FROM CHATUSERS STYLES
 
 .chat-users-container{
 
@@ -9,18 +11,32 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-image: url('../chats/chatlist/assets/chat_list_background.jpg');
+        background-size: cover;
+        background-position: center;
 
-        h1{
-            font-size: 1.2rem;
-            text-transform: capitalize;
-            color: rgb(97, 12, 2);
-        }
+        .dark-overlay{
+            width: inherit;
+            min-height: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.5);
 
-        p{
-            width: 90%;
-            text-align: center;
-            color: inherit;
-            margin-top:10px ;
+            h1{
+                font-size: 1.2rem;
+                text-transform: capitalize;
+                color: rgb(243, 79, 61);
+            }
+    
+            p{
+                width: 90%;
+                text-align: center;
+                color: inherit;
+                margin-top:10px;
+                color: white;
+            }
         }
 
     }

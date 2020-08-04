@@ -8,32 +8,40 @@
     .no-chats-content{
         width: 100%;
         min-height: inherit;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         background-image: url('./assets/chat_list_background.jpg');
         background-size: cover;
         background-position: center;
 
-        h1{
-            font-size: 1.2rem;
-            text-transform: capitalize;
-            color: rgb(97, 12, 2);
-        }
+        .dark-overlay{
+            width: inherit;
+            min-height: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.5);
 
-        h2{
-            font-size: 1.15rem;
-            color: rgb(178, 79, 9);
-            margin: 10px;
+            h1{
+                font-size: 1.2rem;
+                text-transform: capitalize;
+                color: rgb(221, 55, 36);
+            }
+    
+            h2{
+                font-size: 1.15rem;
+                color: rgb(188, 92, 23);
+                margin: 10px;
+            }
+    
+            p{
+                width: 90%;
+                text-align: center;
+                color: inherit;
+                margin-bottom: 10px;
+                color: white;
+            }
         }
-
-        p{
-            width: 90%;
-            text-align: center;
-            color: inherit;
-            margin-bottom: 10px;
-        }
+      
 
     }
    

@@ -1,10 +1,10 @@
 .chat-users-container{
     width: 100%;
     min-height: 90vh;
-    //display: flex;
-    //flex-direction: column;
-    //align-items: center;
-    //justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 
     .search-container{
         width: 100%;
@@ -40,8 +40,28 @@
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
-        justify-content: center;
+        justify-content: space-around;
     }
 }
+
+@media(min-width :760px){
+    .chat-users-container{
+        .users-listing-container{
+            width: 70%;
+        }
+    }
+
+}
+
+@media(min-width :960px){
+    .chat-users-container{
+        .users-listing-container{
+            width: 60%;
+        }
+    }
+
+}
+
+
 
 @import './eachuser/EachUser'

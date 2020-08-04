@@ -32,20 +32,20 @@ const ChatList = () => {
         setSelectedUser(user)
     }
 
-    
-    const sortFunction = (a, b) =>{
+
+    const sortFunction = (a, b) => {
         const comparisonA = a.messages.length > 0 ? a.messages[a.messages.length - 1].timeStamp : a.createdAt
         const comparisonB = b.messages.length > 0 ? b.messages[b.messages.length - 1].timeStamp : b.createdAt
-  
+
         let comparisonStatus = 0
 
-        if(comparisonA < comparisonB){
+        if (comparisonA < comparisonB) {
             comparisonStatus = 1
         }
-        else 
-        if( comparisonA > comparisonB){
-            comparisonStatus = -1
-        }
+        else
+            if (comparisonA > comparisonB) {
+                comparisonStatus = -1
+            }
         return comparisonStatus;
     }
 
@@ -86,16 +86,16 @@ const ChatList = () => {
                                                                                 <span>
                                                                                     {userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
                                                                                         <p style={{ color: "darkgreen" }}>
-                                                                                           {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName ? "You" : user.userName} sent an image
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName ? "You" : user.userName} sent an image
                                                                                         </p>
                                                                                         :
                                                                                         <p>
                                                                                             {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
-                                                                                            
+
                                                                                             {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
-                                                                                            
+
                                                                                             {userChat.messages[userChat.messages.length - 1].sender !== userProfile.userName ?
-                                                                                                userChat.messageRead === false && <span style={{color:"red"}}>unread message(s)</span> : null
+                                                                                                userChat.messageRead === false && <span style={{ color: "red" }}>unread message(s)</span> : null
                                                                                             }
                                                                                         </p>
                                                                                     }
@@ -110,31 +110,31 @@ const ChatList = () => {
                                                         </ListItem>
                                                         :
                                                         <ListItem key={user.id} onClick={() => handleViewChatBoard(user)}>
-                                                        <ListItemAvatar>
-                                                            <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
-                                                        </ListItemAvatar>
+                                                            <ListItemAvatar>
+                                                                <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
+                                                            </ListItemAvatar>
 
-                                                        <ListItemText
-                                                            primary={
-                                                                <div className="chat-list-name">
-                                                                    <p>{user.userName}</p>
-                                                                    <FiberManualRecordIcon
-                                                                        className={user.isActive ? 'online' : 'offline'} />
-                                                                </div>
-                                                            }
-                                                            secondary={
-                                                                <Typography component="div">
-                                                                    {
-                                                                        userChat.messages.length > 0 ?
-                                                                            null
-                                                                            :
-                                                                            <small>{user.userName} wants to chat with you...</small>
-                                                                    }
-                                                                </Typography>
-                                                            }
-                                                        />
-                                                    </ListItem>
-                                                        
+                                                            <ListItemText
+                                                                primary={
+                                                                    <div className="chat-list-name">
+                                                                        <p>{user.userName}</p>
+                                                                        <FiberManualRecordIcon
+                                                                            className={user.isActive ? 'online' : 'offline'} />
+                                                                    </div>
+                                                                }
+                                                                secondary={
+                                                                    <Typography component="div">
+                                                                        {
+                                                                            userChat.messages.length > 0 ?
+                                                                                null
+                                                                                :
+                                                                                <small>{user.userName} wants to chat with you...</small>
+                                                                        }
+                                                                    </Typography>
+                                                                }
+                                                            />
+                                                        </ListItem>
+
                                                 )
                                             } else return null
 
@@ -149,18 +149,22 @@ const ChatList = () => {
                     </List>
                     :
                     <div className="no-chats-content">
-                        <h1>Welcome {userProfile.name}</h1>
-                        <h2>Thank you for choosing OS-Messanger</h2>
-                        <p>
-                            You currently have no chats,
-                            please visit the Users section
-                            and choose a user to chat with.
-                        </p>
-                        <p>
-                            To edit your profile please click on
-                            human icon on the far left of your screen
-                            and select profile.
-                        </p>
+                        <div className="dark-overlay">
+                            <h1>Welcome {userProfile.name}</h1>
+                            <h2>Thank you for choosing OS-Messanger</h2>
+                            
+                            <p>
+                                You currently have no chats,
+                                please visit the Users section
+                                and choose a user to chat with.
+                            </p>
+
+                            <p>
+                                To edit your profile please click the
+                                human icon at the top far left corner of your screen
+                                and select profile.
+                            </p>
+                        </div>
                     </div>
 
 

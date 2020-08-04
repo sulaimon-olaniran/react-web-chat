@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import firebase, { db } from '../../../firebase/Firebase'
+import firebase, { auth, db } from '../../../firebase/Firebase'
 import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/Send'
 import SendImage from './sendimage/SendImage'
 import ChatEmojis from './emoji/Emojis'
 //import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 
-const ChatInput = ({ userName, selectedChat }) => {
+const ChatInput = ({ userName, selectedChat, userProfile }) => {
     const [message, setMessage] = useState('')
     const [messageType, setMessageType] = useState(null)
     const docId = selectedChat[0].interloctors.sort().join(':')
@@ -29,7 +29,18 @@ const ChatInput = ({ userName, selectedChat }) => {
                     }),
                     messageRead: false
                 }, { merge: true })
+
                 .then((res) => {
+                    if( userProfile.isActive === false){
+                        db.collection("users").doc(auth.currentUser.uid).update({
+                            isActive: true,
+                        })
+                        .then(() => {
+                            console.log('active')
+                        })
+                        .catch(error => console.log(error))
+                    }
+
                 })
         }
         else {

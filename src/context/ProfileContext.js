@@ -31,8 +31,8 @@ const ProfileContextProvider = ({ children }) => {
     }
 
     window.onbeforeunload = function () {
-        console.log(auth.currentUser.uid)
         setUserActiveFalse()
+        console.log(auth.currentUser.uid)
     }
 
     const authUser = () => {
@@ -97,7 +97,6 @@ const ProfileContextProvider = ({ children }) => {
 
     useEffect(() => {
         authUser().then((user) => {
-            setUserActiveTrue()
             setIsAuth(true)
             setTimeout(() => {
                 setAuthComplete(true)
@@ -125,7 +124,7 @@ const ProfileContextProvider = ({ children }) => {
         <ProfileContext.Provider value={{
             userProfile, chatMessages, profileFetch, getUserProfile, chatsFetch,
             authComplete, loggedIn, error, profileLoading, chatLoading, isAuth,
-            getUserChats
+            getUserChats, setUserActiveTrue
         }}>
             {children}
         </ProfileContext.Provider>

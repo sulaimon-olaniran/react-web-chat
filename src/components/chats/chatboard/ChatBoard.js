@@ -150,7 +150,7 @@ const ChatBoard = () => {
                                 }
                                 {!sticky && <button onClick={scrollToBottom}>Click</button>}
                             </ScrollToBottom>
-                            <ChatInput userName={userProfile && userProfile.userName} friendName={selectedUser && selectedUser.userName} selectedChat={selectedChat} />
+                            <ChatInput userName={userProfile.userName} friendName={selectedUser && selectedUser.userName} selectedChat={selectedChat} userProfile={userProfile} />
                         </div>
                     </div>
                 </Slide>

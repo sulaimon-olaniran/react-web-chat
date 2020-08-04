@@ -26,7 +26,7 @@ import AppLoader from '../loader/AppLoader'
 const DashBoard = ({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [mainComponent, setMainComponent] = useState("chats")
-    const { profileLoading, chatLoading, userProfile, getUserProfile, getUserChats } = useContext(ProfileContext)
+    const { profileLoading, chatLoading, userProfile, getUserProfile, getUserChats, setUserActiveTrue } = useContext(ProfileContext)
     const { handleTheme, isDarkTheme, themeClass } = useContext(FetchDataContext)
 
     const useStyles = makeStyles({
@@ -42,18 +42,18 @@ const DashBoard = ({ history }) => {
         auth.onAuthStateChanged(user => {
             //if (!mountedRef.current) return null
             if (user) {
-              if (userProfile !== null){
-                getUserProfile()
-                getUserChats()
-
-              }
+                if (userProfile !== null) {
+                    getUserProfile()
+                    getUserChats()
+                    setUserActiveTrue()
+                }
             } else {
                 //setFetching(false)     
             }
         })
 
         return () => {
-           // mountedRef.current = false
+            // mountedRef.current = false
         }
 
     }, [])
@@ -73,20 +73,30 @@ const DashBoard = ({ history }) => {
     };
 
     const logUserOut = () => {
-        setAnchorEl(null)
-        auth.signOut()
-        history.push('/')
+        db.collection("users").doc(auth.currentUser.uid).update({
+            isActive: false,
+            lastSeen: Date.now()
+        })
+        .then(() => {
+            console.log('bye bye ohhh ohh')
+            auth.signOut()
+            history.push('/')
+            setAnchorEl(null)   
+        })
+        .catch(error => console.log(error))
+
     }
 
     //console.log("dashboard called when not logged in")
-    //conditionally rendering components to main screen based on button clicked
+    //conditionally rendering components to main screen based on button 
+    
     let mainComponentDisplayed = null
     let activeClassName = null
 
     switch (mainComponent) {
         case 'profile':
             mainComponentDisplayed = <UserProfile />
-            activeClassName="profile"
+            activeClassName = "profile"
             break;
         case 'chats':
             mainComponentDisplayed = <ChatList />
@@ -105,12 +115,12 @@ const DashBoard = ({ history }) => {
             activeClassName = "chats"
 
     }
-   // console.log(auth.currentUser)
-    
+    // console.log(auth.currentUser)
+
     const loading = profileLoading || chatLoading ? true : false
     const error = userProfile !== null ? false : true
     const text = "Fetching User Profile"
-   
+
     if (profileLoading || chatLoading) return <AppLoader error={error} loading={loading} text={text} />
     if (auth.currentUser === null) return <Redirect to="/signin" />
     return (
@@ -120,15 +130,15 @@ const DashBoard = ({ history }) => {
                 <Button ><Avatar onClick={openAnchorEl} sizes="small" src={userProfile && userProfile.displayImage} /></Button>
 
                 <Button onClick={() => handleMainComponent("chats")}
-                  className={activeClassName === "chats" ? "chats" : null}
-                >Chats <ChatIcon size="small"  /></Button>
+                    className={activeClassName === "chats" ? "chats" : null}
+                >Chats <ChatIcon size="small" /></Button>
 
                 <Button onClick={() => handleMainComponent("favorites")}
-                  className={activeClassName === "favorites" ? "favorites" : null}
+                    className={activeClassName === "favorites" ? "favorites" : null}
                 >Favorites <FavoriteIcon size="small" /></Button>
 
                 <Button onClick={() => handleMainComponent("users")}
-                  className={activeClassName === "users" ? "users" : null}
+                    className={activeClassName === "users" ? "users" : null}
                 >Users <PeopleIcon size="small" /></Button>
 
                 <Menu
@@ -146,14 +156,14 @@ const DashBoard = ({ history }) => {
                         label="Theme"
                         labelPlacement="top"
                         fontSize="small"
-                        //onClick={closeAnchorEl}
+                    //onClick={closeAnchorEl}
                     />
 
-                    <MenuItem onClick={() => handleMainComponent("profile")} > 
-                      <NavLink to="/"> <HomeIcon fontSize="small" /> Home</NavLink>
+                    <MenuItem onClick={() => handleMainComponent("profile")} >
+                        <NavLink to="/"> <HomeIcon fontSize="small" /> Home</NavLink>
                     </MenuItem>
 
-                    
+
                     <MenuItem onClick={logUserOut} > <LockTwoToneIcon fontSize="small" /> Log Out</MenuItem>
                 </Menu>
 
