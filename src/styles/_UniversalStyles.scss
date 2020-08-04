@@ -25,13 +25,14 @@ body{
 
     // styling of profile view modal..............................
     .user-profile-view{
-        height: 20rem;
+        min-height: 20rem;
         width: 20rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         outline: none;
+        border-radius: 50px;
 
         .user-profile-details{
             display: flex;
@@ -40,6 +41,12 @@ body{
             justify-content: center;
             margin: 10px 0;
             color: inherit;
+
+            p{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
         }
 
         .profile-actions-container{
@@ -287,8 +294,27 @@ body{
         }
     }
     
+
+    .MuiPopover-paper{
+        min-width: 25px;
+        padding-right: 10px;
+        ul{
+            width: 100%;
+        }
+
+        .MuiFormControlLabel-root{
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row;
+        }
+    }
     
 }
+
+
+
 
 
 

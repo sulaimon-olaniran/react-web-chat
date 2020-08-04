@@ -27,6 +27,12 @@
         background-color: inherit;
         color: inherit;
         z-index: 1;
+        color: rgb(192, 89, 78);
+
+        .chats, .favorites, .users{
+            border-bottom: 1px solid brown;
+            border-radius: 0;
+        }
         
         .dark-theme{
             color: inherit;

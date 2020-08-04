@@ -32,16 +32,13 @@ const ChatList = () => {
         setSelectedUser(user)
     }
 
-    // const sortedMessages = chatMessages && chatMessages.sort(function(a,b){
-    //     return a.messages[a.messages.length - 1].message.timeStamp  - b.messages[b.messages.length - 1].message.timeStamp
-    // })
     
     const sortFunction = (a, b) =>{
         const comparisonA = a.messages.length > 0 ? a.messages[a.messages.length - 1].timeStamp : a.createdAt
         const comparisonB = b.messages.length > 0 ? b.messages[b.messages.length - 1].timeStamp : b.createdAt
-        //console.log(comparisonA)
-        //console.log(comparisonB)
+  
         let comparisonStatus = 0
+
         if(comparisonA < comparisonB){
             comparisonStatus = 1
         }
@@ -52,11 +49,6 @@ const ChatList = () => {
         return comparisonStatus;
     }
 
-    //console.log(chatMessages)
-
-    //console.log(chatMessages.sort(sortFunction))
-
-    //const setActiveColor = online ? "online" : "offline"
 
     return (
         <div className="chats-list-container">
@@ -93,7 +85,9 @@ const ChatList = () => {
                                                                             userChat.messages.length > 0 ?
                                                                                 <span>
                                                                                     {userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
-                                                                                        <p style={{ color: "light-grey" }}>image file</p>
+                                                                                        <p style={{ color: "darkgreen" }}>
+                                                                                           {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName ? "You" : user.userName} sent an image
+                                                                                        </p>
                                                                                         :
                                                                                         <p>
                                                                                             {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
@@ -114,7 +108,33 @@ const ChatList = () => {
                                                                 }
                                                             />
                                                         </ListItem>
-                                                        : null
+                                                        :
+                                                        <ListItem key={user.id} onClick={() => handleViewChatBoard(user)}>
+                                                        <ListItemAvatar>
+                                                            <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
+                                                        </ListItemAvatar>
+
+                                                        <ListItemText
+                                                            primary={
+                                                                <div className="chat-list-name">
+                                                                    <p>{user.userName}</p>
+                                                                    <FiberManualRecordIcon
+                                                                        className={user.isActive ? 'online' : 'offline'} />
+                                                                </div>
+                                                            }
+                                                            secondary={
+                                                                <Typography component="div">
+                                                                    {
+                                                                        userChat.messages.length > 0 ?
+                                                                            null
+                                                                            :
+                                                                            <small>{user.userName} wants to chat with you...</small>
+                                                                    }
+                                                                </Typography>
+                                                            }
+                                                        />
+                                                    </ListItem>
+                                                        
                                                 )
                                             } else return null
 

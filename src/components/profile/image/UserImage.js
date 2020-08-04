@@ -7,6 +7,7 @@ import Zoom from '@material-ui/core/Zoom'
 import Avatar from '@material-ui/core/Avatar'
 import DisplayImageUpload from './imageupload/ImageUpload'
 import { ProfileContext } from '../../../context/ProfileContext'
+import ViewImageComponent from '../../ViewImage'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +30,18 @@ const DisplayImage = () => {
         setImageModal(false)
     }
 
+    const [viewProfileImage, setViewProfileImage] = useState(false)
+
+    const openProfileImage = () => setViewProfileImage(true)
+    const closeProfileImage = () => setViewProfileImage(false)
+
 
     return (
         <div className="profile-picture-container" >
             <div className="profile-image-container" >
-                <Avatar src={userProfile.displayImage} alt="Display P" />
+                <Avatar src={userProfile.displayImage} alt="Display_IMG"
+                   onClick ={ userProfile.displayImage !== "" ? openProfileImage : null}
+                />
             </div>
 
             <Button color="secondary" variant="contained" onClick={openImageModal}  >Change Image</Button>
@@ -55,6 +63,12 @@ const DisplayImage = () => {
                     </React.Fragment>
                 </Zoom>
             </Modal>
+
+            <ViewImageComponent 
+              openModal={viewProfileImage}
+              closeModal={closeProfileImage}
+              imageFile={userProfile.displayImage}
+            />
         </div>
     )
 }

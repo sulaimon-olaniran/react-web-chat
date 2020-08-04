@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Modal from '@material-ui/core/Modal'
 import { makeStyles } from '@material-ui/core/styles'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -10,6 +10,8 @@ import ChatIcon from '@material-ui/icons/Chat'
 import firebase, { db } from '../../../../firebase/Firebase'
 import { ProfileContext } from '../../../../context/ProfileContext'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import moment from 'moment'
+import ViewImageComponent from '../../../ViewImage'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     large: {
         width: theme.spacing(20),
         height: theme.spacing(20),
+        cursor: "pointer"
     },
 }))
 
@@ -33,10 +36,10 @@ const EachUserProfile = () => {
     userArray.push(selectedUser.id)
     userProfile && userArray.push(userProfile.id)
 
-    //console.log(userProfile)
+    const [viewProfileImage, setViewProfileImage] = useState(false)
 
-    // console.log(selectedUser)
-    //console.log(chatMessages)
+    const openProfileImage = () => setViewProfileImage(true)
+    const closeProfileImage = () => setViewProfileImage(false)
 
 
     const handleCloseProfile = () => {
@@ -44,42 +47,44 @@ const EachUserProfile = () => {
     }
 
 
-
-
-
-
     const openchatFromUsers = () => {
         const docId = userArray.sort().join(':')
-        if (chatMessages.length > 0) {
-            chatMessages.forEach(message => {
-                if (message.chatId === docId) {
-                    setViewProfile(false)
-                    setOpenChat(true)
-                    setSelectedUser(selectedUser)
-                    console.log('seen you, hello baby')
-                }
-                else {
-                    db.collection('chats').doc(docId).set({
-                        createdBy: userProfile.userName,
-                        createdAt : Date.now(),
-                        chatId: docId,
-                        messageRead: false,
-                        interloctors: userArray,
-                        messages: []
-                    })
-                        .then(() => {
-                            setViewProfile(false)
-                            setOpenChat(true)
-                            setSelectedUser(selectedUser)
-                        })
+        const arrayOfChatIds = []
 
-                }
-            })
+        chatMessages.length > 0 && chatMessages.forEach(message => {
+            arrayOfChatIds.push(message.chatId)
+        })
+
+        if (chatMessages.length > 0) {
+            if (arrayOfChatIds.includes(docId)) {
+                //console.log("chat already exists")
+                setViewProfile(false)
+                setOpenChat(true)
+                setSelectedUser(selectedUser)
+            }
+
+            else {
+                db.collection('chats').doc(docId).set({
+                    createdBy: userProfile.userName,
+                    createdAt: Date.now(),
+                    chatId: docId,
+                    messageRead: false,
+                    interloctors: userArray,
+                    messages: []
+                })
+                    .then(() => {
+                        setViewProfile(false)
+                        setOpenChat(true)
+                        setSelectedUser(selectedUser)
+                        //console.log("i went on to create the chat")
+                    })
+
+            }
         }
-        else{
+        else {
             db.collection('chats').doc(docId).set({
                 createdBy: userProfile.userName,
-                createdAt : Date.now(),
+                createdAt: Date.now(),
                 chatId: docId,
                 messageRead: false,
                 interloctors: userArray,
@@ -89,6 +94,7 @@ const EachUserProfile = () => {
                     setViewProfile(false)
                     setOpenChat(true)
                     setSelectedUser(selectedUser)
+                    //console.log("i created the new chat,not him")
                 })
         }
 
@@ -134,9 +140,11 @@ const EachUserProfile = () => {
             >
                 <Slide direction="up" in={viewProfile} mountOnEnter unmountOnExit>
                     <div className={`user-profile-view ${themeClass}`}>
-                        <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.large} />
+                        <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.large}
+                            onClick={selectedUser.displayImage !== '' ? openProfileImage : null} />
                         <div className="user-profile-details">
                             <p>{selectedUser.name} ({selectedUser.userName}) <FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} /></p>
+                            {selectedUser.isActive === false && <small>Last seen; {moment(selectedUser.lastSeen).calendar()}</small>}
                             {selectedUser.state !== '' && selectedUser.country !== '' && <p>{selectedUser.state}, {selectedUser.country}</p>}
                             {selectedUser.about !== '' && <p>{selectedUser.about}</p>}
                         </div>
@@ -152,6 +160,11 @@ const EachUserProfile = () => {
                 </Slide>
 
             </Modal>
+            <ViewImageComponent
+                openModal={viewProfileImage}
+                closeModal={closeProfileImage}
+                imageFile={selectedUser.displayImage}
+            />
         </div>
     )
 }

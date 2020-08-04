@@ -14,6 +14,7 @@ import { ProfileContext } from '../../../context/ProfileContext'
 import ScrollToBottom, { useSticky, useScrollToBottom } from 'react-scroll-to-bottom'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { db } from '../../../firebase/Firebase'
+import ViewImageComponent from '../../ViewImage'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     small: {
         width: theme.spacing(6),
         height: theme.spacing(6),
+        cursor : "pointer"
     },
     xsmall: {
         width: theme.spacing(2),
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChatBoard = () => {
-    const { selectedUser, openChat, setOpenChat, chatThemeClass } = useContext(FetchDataContext)
+    const { selectedUser, openChat, setOpenChat, chatThemeClass, setViewProfile } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const classes = useStyles()
     //const chatContainer = useRef(null)
@@ -69,7 +71,6 @@ const ChatBoard = () => {
 
 
     useEffect(() => {
-        console.log(selectedChat)
         db.collection("chats").doc(selectedChat[0].chatId).update({
             messageRead: true,
         })
@@ -101,7 +102,9 @@ const ChatBoard = () => {
                             <ArrowBackIcon onClick={closeChatBoard} fontSize="large" />
 
                             <div className="chat-board-title-profile">
-                                <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small} />
+                                <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small}
+                                  onClick={ () => setViewProfile(true)}
+                                />
                                 <span>
                                     <p> {selectedUser.userName}<FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} /></p>
                                     {selectedUser.isActive === false ? <small>Last seen; {moment(selectedUser.lastSeen).calendar()}</small> 
@@ -124,35 +127,13 @@ const ChatBoard = () => {
                                                         <div className="message-type-image">
                                                             <img src={message.message} alt="Img File" onClick={() => openImageModal(message.message)} />
                                                             <small>{moment(message.timeStamp).fromNow()}</small>
-                                                            <Modal
-                                                                aria-labelledby="transition-modal-title"
-                                                                aria-describedby="transition-modal-description"
-                                                                className={classes.modal}
-                                                                open={viewImageModal}
-                                                                onClose={closeImageModal}
-                                                                closeAfterTransition
-                                                                BackdropComponent={Backdrop}
-                                                                BackdropProps={{
-                                                                    timeout: 500,
-                                                                }}
-                                                            >
-                                                                <Slide direction="up" in={viewImageModal} mountOnEnter unmountOnExit>
-                                                                    <div className="chat-image-view-container">
-                                                                        <div className="view-image-modal">
-                                                                            <img src={selectedImg} alt="Viewed Img File" />
-                                                                        </div>
-                                                                        <Button
-                                                                            onClick={closeImageModal}
-                                                                            color="primary"
-                                                                            variant="contained"
-                                                                        >
-                                                                            Close
-                                                                        </Button>
-                                                                    </div>
 
-                                                                </Slide>
-
-                                                            </Modal>
+                                                            <ViewImageComponent 
+                                                                openModal = {viewImageModal}
+                                                                closeModal = {closeImageModal}
+                                                                imageFile = {selectedImg}
+                                                            />
+                                                            
                                                         </div>
                                                         :
                                                         <div className={`each-board-message`}>

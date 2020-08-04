@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import PeopleIcon from '@material-ui/icons/People'
 import FavoriteIcon from '@material-ui/icons/Favorite'
@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PersonTwoToneIcon from '@material-ui/icons/PersonTwoTone'
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone'
 import UserProfile from '../profile/UserProfile'
+import HomeIcon from '@material-ui/icons/Home';
 import { auth, db } from '../../firebase/Firebase'
 import ChatList from '../chats/chatlist/ChatList'
 import ChatUsers from '../users/ChatUsers'
@@ -80,22 +81,28 @@ const DashBoard = ({ history }) => {
     //console.log("dashboard called when not logged in")
     //conditionally rendering components to main screen based on button clicked
     let mainComponentDisplayed = null
+    let activeClassName = null
 
     switch (mainComponent) {
         case 'profile':
-            mainComponentDisplayed = <UserProfile />;
+            mainComponentDisplayed = <UserProfile />
+            activeClassName="profile"
             break;
         case 'chats':
-            mainComponentDisplayed = <ChatList />;
+            mainComponentDisplayed = <ChatList />
+            activeClassName = "chats"
             break;
         case 'users':
-            mainComponentDisplayed = <ChatUsers />;
+            mainComponentDisplayed = <ChatUsers />
+            activeClassName = "users"
             break;
         case 'favorites':
-            mainComponentDisplayed = <FavoriteUsers />;
+            mainComponentDisplayed = <FavoriteUsers />
+            activeClassName = "favorites"
             break;
         default:
-            mainComponentDisplayed = <ChatList />;
+            mainComponentDisplayed = <ChatList />
+            activeClassName = "chats"
 
     }
    // console.log(auth.currentUser)
@@ -111,9 +118,19 @@ const DashBoard = ({ history }) => {
 
             <div className="dashboard-links">
                 <Button ><Avatar onClick={openAnchorEl} sizes="small" src={userProfile && userProfile.displayImage} /></Button>
-                <Button onClick={() => handleMainComponent("chats")}>Chats <ChatIcon fontSize="small" /></Button>
-                <Button onClick={() => handleMainComponent("favorites")}>Favorites <FavoriteIcon fontSize="small" /></Button>
-                <Button onClick={() => handleMainComponent("users")}>Users <PeopleIcon fontSize="small" /></Button>
+
+                <Button onClick={() => handleMainComponent("chats")}
+                  className={activeClassName === "chats" ? "chats" : null}
+                >Chats <ChatIcon size="small"  /></Button>
+
+                <Button onClick={() => handleMainComponent("favorites")}
+                  className={activeClassName === "favorites" ? "favorites" : null}
+                >Favorites <FavoriteIcon size="small" /></Button>
+
+                <Button onClick={() => handleMainComponent("users")}
+                  className={activeClassName === "users" ? "users" : null}
+                >Users <PeopleIcon size="small" /></Button>
+
                 <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}
@@ -123,13 +140,20 @@ const DashBoard = ({ history }) => {
                     classes={{ paper: styles.paper }}
                 >
                     <MenuItem onClick={() => handleMainComponent("profile")} > <PersonTwoToneIcon fontSize="small" /> Profile</MenuItem>
+
                     <FormControlLabel
                         control={<Switch fontSize="small" color="default" checked={isDarkTheme} onChange={handleTheme} />}
                         label="Theme"
                         labelPlacement="top"
                         fontSize="small"
-                        onClick={closeAnchorEl}
+                        //onClick={closeAnchorEl}
                     />
+
+                    <MenuItem onClick={() => handleMainComponent("profile")} > 
+                      <NavLink to="/"> <HomeIcon fontSize="small" /> Home</NavLink>
+                    </MenuItem>
+
+                    
                     <MenuItem onClick={logUserOut} > <LockTwoToneIcon fontSize="small" /> Log Out</MenuItem>
                 </Menu>
 
