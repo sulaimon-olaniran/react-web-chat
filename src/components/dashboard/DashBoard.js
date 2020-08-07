@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { Redirect, NavLink } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import PeopleIcon from '@material-ui/icons/People'
@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PersonTwoToneIcon from '@material-ui/icons/PersonTwoTone'
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone'
 import UserProfile from '../profile/UserProfile'
-import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from '@material-ui/icons/Home'
 import { auth, db } from '../../firebase/Firebase'
 import ChatList from '../chats/chatlist/ChatList'
 import ChatUsers from '../users/ChatUsers'
@@ -21,14 +21,16 @@ import Switch from '@material-ui/core/Switch'
 import { FetchDataContext } from '../../context/FetchDataContext'
 import { makeStyles } from '@material-ui/core/styles'
 import AppLoader from '../loader/AppLoader'
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 
 const DashBoard = ({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const [mainComponent, setMainComponent] = useState("chats")
     const { profileLoading, chatLoading, userProfile, getUserProfile, getUserChats, setUserActiveTrue } = useContext(ProfileContext)
-    const { handleTheme, isDarkTheme, themeClass } = useContext(FetchDataContext)
-
+    const { handleTheme, isDarkTheme, themeClass, setOpenNotificationsDrawer, userNotification } = useContext(FetchDataContext)
+    const mountedRef = useRef(true)
     const useStyles = makeStyles({
         paper: {
             background: isDarkTheme ? "rgb(0, 0, 14)" : "rgb(207, 236, 246)",
@@ -40,7 +42,7 @@ const DashBoard = ({ history }) => {
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
-            //if (!mountedRef.current) return null
+            if (!mountedRef.current) return null
             if (user) {
                 if (userProfile !== null) {
                     getUserProfile()
@@ -53,7 +55,7 @@ const DashBoard = ({ history }) => {
         })
 
         return () => {
-            // mountedRef.current = false
+            mountedRef.current = false
         }
 
     }, [])
@@ -77,19 +79,18 @@ const DashBoard = ({ history }) => {
             isActive: false,
             lastSeen: Date.now()
         })
-        .then(() => {
-            console.log('bye bye ohhh ohh')
-            auth.signOut()
-            history.push('/')
-            setAnchorEl(null)   
-        })
-        .catch(error => console.log(error))
+            .then(() => {
+                console.log('bye bye ohhh ohh')
+                auth.signOut()
+                history.push('/')
+                setAnchorEl(null)
+            })
+            .catch(error => console.log(error))
 
     }
 
-    //console.log("dashboard called when not logged in")
     //conditionally rendering components to main screen based on button 
-    
+
     let mainComponentDisplayed = null
     let activeClassName = null
 
@@ -117,6 +118,8 @@ const DashBoard = ({ history }) => {
     }
     // console.log(auth.currentUser)
 
+    const notifcationClass = userNotification ? 'new-notification' : null
+
     const loading = profileLoading || chatLoading ? true : false
     const error = userProfile !== null ? false : true
     const text = "Fetching User Profile"
@@ -127,19 +130,25 @@ const DashBoard = ({ history }) => {
         <div className={`dashboard-container ${themeClass}`}>
 
             <div className="dashboard-links">
-                <Button ><Avatar onClick={openAnchorEl} sizes="small" src={userProfile && userProfile.displayImage} /></Button>
+                <Button ><Avatar onClick={openAnchorEl} size="small" src={userProfile && userProfile.displayImage} /></Button>
 
                 <Button onClick={() => handleMainComponent("chats")}
                     className={activeClassName === "chats" ? "chats" : null}
-                >Chats <ChatIcon size="small" /></Button>
+                >Chats <ChatIcon fontSize="small" /></Button>
 
                 <Button onClick={() => handleMainComponent("favorites")}
                     className={activeClassName === "favorites" ? "favorites" : null}
-                >Favorites <FavoriteIcon size="small" /></Button>
+                >Favs<FavoriteIcon fontSize="small" /></Button>
 
                 <Button onClick={() => handleMainComponent("users")}
                     className={activeClassName === "users" ? "users" : null}
-                >Users <PeopleIcon size="small" /></Button>
+                >Users <PeopleIcon fontSize="small" /></Button>
+
+                <div className = {notifcationClass}>
+                    <Button onClick={() => setOpenNotificationsDrawer(true)}>
+                        {userNotification ? <NotificationsActiveIcon fontSize="small" /> : <NotificationsIcon  fontSize="small"/>}
+                    </Button>
+                </div>
 
                 <Menu
                     id="simple-menu"
@@ -156,7 +165,6 @@ const DashBoard = ({ history }) => {
                         label="Theme"
                         labelPlacement="top"
                         fontSize="small"
-                    //onClick={closeAnchorEl}
                     />
 
                     <MenuItem onClick={() => handleMainComponent("profile")} >
@@ -172,6 +180,7 @@ const DashBoard = ({ history }) => {
             <main className={`${themeClass}`}>
                 {mainComponentDisplayed}
             </main>
+
         </div>
     )
 }

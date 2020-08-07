@@ -16,7 +16,7 @@ const FavoriteUsers = () => {
                         {
                             appUsers.map((user) => {
 
-                                return userProfile.favorites.includes(user.userName)
+                                return userProfile.favorites.includes(user.id)
                                     &&
                                     <React.Fragment key={user.id}>
                                         <EachUser user={user} />
@@ -28,6 +28,7 @@ const FavoriteUsers = () => {
                     <div className="no-user-available">
                         <div className="dark-overlay">
                             <h1>You currently have no favorite user(s)</h1>
+                            <p>To get notifications from a user, they need to be added to your favorites list</p>
                             <p>Please head over to users sections to add a user as your favorite by clicking on the love icon.</p>
                         </div>
                     </div>

@@ -84,7 +84,7 @@ const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
                         setImageSent(true)
                         setTimeout(() => {
                             handleClosePreview()  
-                        }, 500);
+                        }, 1000);
                     })
             }
         )
@@ -125,7 +125,7 @@ const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
 
             </Modal>
 
-            <Snackbar open={imageSent} autoHideDuration={1000} onClose={handleCloseAlert}
+            <Snackbar open={imageSent} autoHideDuration={100000} onClose={handleCloseAlert}
                 anchorOrigin={{
                     vertical: 'top',
                    horizontal: 'center'

@@ -33,8 +33,12 @@ const EachUserProfile = () => {
     const { viewProfile, setViewProfile, selectedUser, setOpenChat, setSelectedUser, themeClass } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const userArray = []
+    const userNamesArray = []
     userArray.push(selectedUser.id)
     userProfile && userArray.push(userProfile.id)
+
+    userNamesArray.push(selectedUser.userName)
+    userNamesArray.push(userProfile.userName)
 
     const [viewProfileImage, setViewProfileImage] = useState(false)
 
@@ -70,6 +74,7 @@ const EachUserProfile = () => {
                     chatId: docId,
                     messageRead: false,
                     interloctors: userArray,
+                    userNames : userNamesArray,
                     messages: []
                 })
                     .then(() => {
@@ -88,6 +93,7 @@ const EachUserProfile = () => {
                 chatId: docId,
                 messageRead: false,
                 interloctors: userArray,
+                userNames : userNamesArray,
                 messages: []
             })
                 .then(() => {
@@ -106,7 +112,7 @@ const EachUserProfile = () => {
         const id = userProfile && userProfile.id
         db.collection('users').doc(id)
             .set({
-                favorites: firebase.firestore.FieldValue.arrayUnion(selectedUser.userName)
+                favorites: firebase.firestore.FieldValue.arrayUnion(selectedUser.id)
 
             }, { merge: true })
     }
@@ -117,12 +123,12 @@ const EachUserProfile = () => {
         const id = userProfile && userProfile.id
         db.collection('users').doc(id)
             .set({
-                favorites: firebase.firestore.FieldValue.arrayRemove(selectedUser.userName)
+                favorites: firebase.firestore.FieldValue.arrayRemove(selectedUser.id)
             }, { merge: true })
     }
 
-    const favColor = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.userName) ? 'favorite' : 'not-favorite'
-    const currentFunction = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.userName) ? removeUserFromFavorites : addUserToFavorites
+    const favColor = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.id) ? 'favorite' : 'not-favorite'
+    const currentFunction = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.id) ? removeUserFromFavorites : addUserToFavorites
 
     return (
         <div>
