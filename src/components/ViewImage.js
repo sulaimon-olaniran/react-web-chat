@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+//important component that handles all image viewing in the appp..........................
 
 const ViewImageComponent = ({ openModal, imageFile, closeModal }) => {
     const classes = useStyles()

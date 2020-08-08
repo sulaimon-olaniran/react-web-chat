@@ -7,7 +7,6 @@ import { FetchDataContext } from '../../../context/FetchDataContext'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Slide from '@material-ui/core/Slide'
-import Button from '@material-ui/core/Button'
 import moment from 'moment'
 import DoneIcon from '@material-ui/icons/Done'
 import { ProfileContext } from '../../../context/ProfileContext'
@@ -45,7 +44,7 @@ const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass, setViewProfile } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const classes = useStyles() 
-    //const chatContainer = useRef(null)
+    const mountedRef = useRef(true)
     const [sticky] = useSticky()
     const scrollToBottom = useScrollToBottom()
 
@@ -78,14 +77,15 @@ const ChatBoard = () => {
 
     useEffect(() => {
         //setting message read to true once receiver opens chat board
+        if (!mountedRef.current) return null
         db.collection("chats").doc(selectedChat[0].chatId).update({
             messageRead: true,
         })
             .then(() => {
-                //console.log('read now true')
+                mountedRef.current = false
             })
             .catch(error => console.log(error))
-    }, [])
+    }, [chatMessages, selectedChat])
 
 
     return (
@@ -125,7 +125,7 @@ const ChatBoard = () => {
                             <ScrollToBottom className="messages-container" >
                                 {
                                     selectedChat.length > 0 ? selectedChat[0].messages.map((message, i) => {
-                                        //aligning message based on sender of the message
+                                        //aligning message left or right based on sender of the message
                                         const alignMessage = message.sender === userProfile.id ? "align-message-right" : "align-message-left"
                                         return (
                                             <div className={`each-message-container ${alignMessage}`} key={i} >

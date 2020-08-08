@@ -24,35 +24,29 @@ const ChatEmojis = ({ setMessage }) => {
     const handleOpenEmoji = () => {
         setOpenEmoji(true)
     }
-    //console.log(emoji)
+    
 
-
+    //I plan on creating an array with these and just mapping in the future......................
+    //Filtering smileys based on categories....................................
     const smileys_emotion = emoji.filter(emoji => emoji.group.includes('Smileys & Emotion'))
-    //console.log(smileys_emotion)
 
     const people_body = emoji.filter(emoji => emoji.group.includes('People & Body'))
-    //console.log(people_body)
 
     const animals_nature = emoji.filter(emoji => emoji.group.includes('Animals & Nature'))
-    //console.log(animals_nature)
 
     const food_drink = emoji.filter(emoji => emoji.group.includes('Food & Drink'))
-    //console.log(food_drink)
 
     const travel_places = emoji.filter(emoji => emoji.group.includes('Travel & Places'))
-    //console.log(travel_places)
 
     const objects = emoji.filter(emoji => emoji.group.includes('Objects'))
-    //console.log(objects)
 
     const symbols = emoji.filter(emoji => emoji.group.includes('Symbols'))
-    //console.log(symbols)
 
     const flags = emoji.filter(emoji => emoji.group.includes('Flags'))
-    //console.log(flags)
 
     let selectedEmojiGroup = null
 
+    //displaying current emoji group based on selected emoji
     switch (emojiGroup) {
         case 'Smileys & Emotion':
             selectedEmojiGroup = smileys_emotion;
@@ -83,9 +77,7 @@ const ChatEmojis = ({ setMessage }) => {
 
     }
 
-    const emojiHeaders = [smileys_emotion, people_body, animals_nature, food_drink, travel_places, objects, flags, symbols]
-    //console.log(emojiHeaders)
-    //console.log(selectedEmojiGroup)
+    const emojiHeaders = [smileys_emotion, people_body, animals_nature, food_drink, travel_places, objects, flags, symbols] //each emoji shown as header on top of emojis group
 
     const handleCloseEmoji = () => {
         setOpenEmoji(false)
@@ -99,6 +91,7 @@ const ChatEmojis = ({ setMessage }) => {
             >
                 😊
             </span>
+            {/* modal that holds emoji options.................................. */}
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"

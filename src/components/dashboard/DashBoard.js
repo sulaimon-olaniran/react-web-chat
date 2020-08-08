@@ -27,7 +27,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const DashBoard = ({ history }) => {
     const [anchorEl, setAnchorEl] = useState(null)
-    const [mainComponent, setMainComponent] = useState("chats")
+    const [mainComponent, setMainComponent] = useState("chats") //on render dashboard would display the chats component
     const { profileLoading, chatLoading, userProfile, getUserProfile, getUserChats, setUserActiveTrue } = useContext(ProfileContext)
     const { handleTheme, isDarkTheme, themeClass, setOpenNotificationsDrawer, userNotification } = useContext(FetchDataContext)
     const mountedRef = useRef(true)
@@ -41,6 +41,7 @@ const DashBoard = ({ history }) => {
     const styles = useStyles()
 
     useEffect(() => {
+        //fetching user's profile when dashboard mounts and setting user active status online.............
         auth.onAuthStateChanged(user => {
             if (!mountedRef.current) return null
             if (user) {
@@ -58,22 +59,27 @@ const DashBoard = ({ history }) => {
             mountedRef.current = false
         }
 
-    }, [])
+    }, [getUserChats, getUserProfile, setUserActiveTrue, userProfile])
 
+
+    //function to switch component to be active on dashboard rendered screen
     const handleMainComponent = (component) => {
         setMainComponent(component)
-        //console.log(component)
         setAnchorEl(null)
     }
+
 
     const openAnchorEl = (event) => {
         setAnchorEl(event.currentTarget)
     }
 
+
     const closeAnchorEl = () => {
         setAnchorEl(null)
     };
 
+
+    //logging user out of firebase and setting user active status offline..............
     const logUserOut = () => {
         db.collection("users").doc(auth.currentUser.uid).update({
             isActive: false,
@@ -89,7 +95,7 @@ const DashBoard = ({ history }) => {
 
     }
 
-    //conditionally rendering components to main screen based on button 
+    //conditionally rendering components to main screen based on selected string from switch(chats renders chat, profile renders profile)//// felt using link would make it less user friendly
 
     let mainComponentDisplayed = null
     let activeClassName = null
@@ -116,16 +122,21 @@ const DashBoard = ({ history }) => {
             activeClassName = "chats"
 
     }
-    // console.log(auth.currentUser)
+   
 
-    const notifcationClass = userNotification ? 'new-notification' : null
+
+    const notifcationClass = userNotification ? 'new-notification' : null //conditionally setting notification classname if there's new notifications
 
     const loading = profileLoading || chatLoading ? true : false
     const error = userProfile !== null ? false : true
     const text = "Fetching User Profile"
 
-    if (profileLoading || chatLoading) return <AppLoader error={error} loading={loading} text={text} />
-    if (auth.currentUser === null) return <Redirect to="/signin" />
+
+
+    if (profileLoading || chatLoading) return <AppLoader error={error} loading={loading} text={text} /> //checking if profile fetching is going on
+    if (auth.currentUser === null) return <Redirect to="/signin" /> //redirect user if user isn't logged in
+
+
     return (
         <div className={`dashboard-container ${themeClass}`}>
 

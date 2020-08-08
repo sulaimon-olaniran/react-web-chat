@@ -25,14 +25,13 @@ const ProfileContextProvider = ({ children }) => {
             lastSeen : Date.now()
         })
             .then(() => {
-                console.log('bye bye ohhh ohh')
+               // console.log('offline')
             })
             .catch(error => console.log(error))
     }
 
     window.onbeforeunload = function () {
         setUserActiveFalse()
-        console.log(auth.currentUser.uid)
     }
 
     const authUser = () => {
@@ -89,7 +88,7 @@ const ProfileContextProvider = ({ children }) => {
             isActive: true,
         })
             .then(() => {
-                console.log('active')
+                //console.log('active')
             })
             .catch(error => console.log(error))
     }
@@ -115,7 +114,6 @@ const ProfileContextProvider = ({ children }) => {
 
         return () => {
             mountedRef.current = false
-           // console.log('hello world')
         }
 
     }, [])

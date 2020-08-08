@@ -6,8 +6,8 @@ import TextField from '@material-ui/core/TextField'
 const ChatUsers = () =>{
     const { appUsers } = useContext(FetchDataContext)
     const [searchField, setSearchField] = useState("")
-    //console.log(appUsers)
-
+   
+    //sorting lists of user alphabetically based on their usernames
     const sortFunction = (a, b) =>{
         const comparisonA = a.userName
         const comparisonB = b.userName
@@ -23,10 +23,14 @@ const ChatUsers = () =>{
         return comparisonStatus;
     }
 
+
+
     const handleSearchInput = (e) => {
         setSearchField(e.target.value)
     }
 
+
+    //filtering user based on search input, if input text is related to firstname, lastname or username
     const filterSearchFunction = (data) =>{
         return(
              data.userName.toLowerCase().includes(searchField.toLowerCase()) ||
@@ -37,7 +41,7 @@ const ChatUsers = () =>{
 
     const searchResults = appUsers && appUsers.filter(filterSearchFunction)
 
-    const listToDisplay = searchField === "" ? appUsers : searchResults
+    const listToDisplay = searchField === "" ? appUsers : searchResults //conditinally rendering users based on input text or all users
 
 
     return(

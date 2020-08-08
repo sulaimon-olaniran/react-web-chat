@@ -67,6 +67,8 @@ exports.profileEdited = functions.firestore.document('users/{userId}').onUpdate(
         title : 'profile_notification'
     }
 
+    //only run this cloud function if these conditions are true, dont want it running everytime a user active status changes
+
     if( before.userName !== user.userName || before.firstName !== user.firstName || 
         before.lastName !== user.lastName || before.dispayImage !== user.dispayImage
         || before.state !== user.state || before.country !== user.country ||
@@ -87,7 +89,7 @@ exports.newMessages = functions.firestore.document('chats/{chatId}').onWrite((ch
     const docId = uuidv4()
    
     const notification = {
-        content: `New message from ${message.messages[message.messages.length - 1].sender}`,
+        content: `New message from ${message.messages[message.messages.length - 1].senderName}`,
         sender: message.messages[message.messages.length - 1].sender,
         chatId: message.chatId,
         time: message.messages[message.messages.length - 1].timeStamp,

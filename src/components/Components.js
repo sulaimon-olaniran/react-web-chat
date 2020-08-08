@@ -26,12 +26,17 @@ const Components = () => {
     const { appUsers, openChat, messageNotifications, newNotification, setNewNotification, selectedUser } = useContext(FetchDataContext)
     const incomingMessage = useRef()
     const text = "Authenticating User"
+    
 
+    //returning notifications that are only related to current logged in user.............
     const filterFunction = (notification) => {
         return notification.seen === false && notification.usersId.includes(userProfile.id) && notification.sender !== userProfile.id 
     }
     const filteredNotifications = messageNotifications.length > 0 ? messageNotifications.filter(filterFunction) : null
     //console.log(filteredNotifications)
+
+
+
 
     const setNotifactionToSeen = () =>{
         filteredNotifications && filteredNotifications.forEach(each => {
@@ -47,12 +52,18 @@ const Components = () => {
         })
     }
 
+    
+    
+
     const handleCloseAlert = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
         setNotifactionToSeen()
     }
+
+
+
 
     if (!authComplete) return <AppLoader loading={isAuth} error={error} text={text} />
     return (
@@ -67,10 +78,11 @@ const Components = () => {
             {openChat && <ChatBoard />}
             {loggedIn && !profileLoading && <Notifications />}
 
-            {
+
+            {   // handling and displaying of user's notifications
                 filteredNotifications && filteredNotifications.map((notification, i) => {
                     if (openChat === true && notification.usersId.includes(selectedUser.id)) {
-                        setNotifactionToSeen()
+                        return setNotifactionToSeen()
                     }
                     else {
                         incomingMessage.current && incomingMessage.current.play()

@@ -23,10 +23,10 @@ const DisplayImage = () => {
     const [imageModal, setImageModal] = useState(false)
     const { userProfile } = useContext(ProfileContext)
 
-    const openImageModal = () => {
+    const openImageModal = () => { //OPENS MODAL TO UPLOAD NEW IMAGE
         setImageModal(true)
     }
-    const closeImageModal = () => {
+    const closeImageModal = () => { //OPENS MODAL TO UPLOAD NEW IMAGE
         setImageModal(false)
     }
 

@@ -9,6 +9,7 @@ import Fab from '@material-ui/core/Fab'
 import CheckIcon from '@material-ui/icons/Check'
 import SaveIcon from '@material-ui/icons/Save'
 import Avatar from '@material-ui/core/Avatar'
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: -12,
     },
 }))
+
+//COMPONENT FOR UPLOADING PROFILE IMAGE TO FIREBASE,,, JUST SOME FIREBASE FUNCTIONS AND MATERIAL UI UPLOAD SUCCESS COMPONENT...................
 
 const DisplayImageUpload = ({ photo }) => {
     const [image, setImage] = useState(null)
@@ -104,7 +107,7 @@ const DisplayImageUpload = ({ photo }) => {
             <div className="upload-image-div">
                 <label className="file" >
                     <input type="file" onChange={handleChange} accept="image/png, .jpeg, .jpg, image/gif" />
-                    <p>CHOOSE IMAGE</p>
+                    <p>CHOOSE IMAGE <InsertPhotoIcon /></p>
                 </label>
 
             </div>

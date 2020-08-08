@@ -30,20 +30,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
+const SendImage = ({ submitMessage }) => {
     const classes = useStyles()
-    const [selectedImage, setSelectedImage] = useState(null)
-    const [uploadedImageUrl, setUploadedImageUrl] = useState(null)
-    const [imagePreview, setImagePreview] = useState(null)
-    const [openPreview, setOpenPreview] = useState(false)
-    const [uploadProgress, setUploadProgress] = useState(0)
-    const [imageSent, setImageSent] = useState(false)
+    const [selectedImage, setSelectedImage] = useState(null) //holds the chosen image file from folder
+    const [imagePreview, setImagePreview] = useState(null) //holds local created url so user can preview image before uploading
+    const [openPreview, setOpenPreview] = useState(false) 
+    const [uploadProgress, setUploadProgress] = useState(0) //progress upload of image
+    const [imageSent, setImageSent] = useState(false)  //alert to display if image was successfully sent
 
 
     const handleOnChange = (e) => {
         if (e.target.files[0]) {
             setSelectedImage(e.target.files[0])
-            setImagePreview(URL.createObjectURL(e.target.files[0]))
+            setImagePreview(URL.createObjectURL(e.target.files[0])) //creats a local url for image previewing
         }
         setOpenPreview(true)
     }
@@ -77,14 +76,11 @@ const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
                 storage.ref('chatImages').child(selectedImage.name).getDownloadURL()
                     .then(url => {
                         console.log(url)
-                        // setUploadedImageUrl(url)
-                        // setMessage(url)
-                        // setMessageType('image')
-                        submitMessage(url, 'image')
+                        submitMessage(url, 'image') //sends image to database with imageurl and type of message as Image
                         setImageSent(true)
                         setTimeout(() => {
-                            handleClosePreview()  
-                        }, 1000);
+                            handleClosePreview()   //close image preview after image sent
+                        }, 500);
                     })
             }
         )
@@ -125,7 +121,7 @@ const SendImage = ({ setMessageType, setMessage, submitMessage }) => {
 
             </Modal>
 
-            <Snackbar open={imageSent} autoHideDuration={100000} onClose={handleCloseAlert}
+            <Snackbar open={imageSent} autoHideDuration={1000} onClose={handleCloseAlert}
                 anchorOrigin={{
                     vertical: 'top',
                    horizontal: 'center'

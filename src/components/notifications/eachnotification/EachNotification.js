@@ -13,10 +13,10 @@ const EachNotification = (notification) =>{
     
     const selectedProfile = appUsers.filter(filterFunction)
 
-    const collection = notification.notification.title
-    const noteId = notification.notification.id
+    const collection = notification.notification.title //getting the notification collection from the notification(newuser_added or profile)
+    const noteId = notification.notification.id //getting the unique id for the notification for updating it............
   
-
+    //function for viewing users profile from notification slide bar.............
     const viewProfileFromNotification = () =>{
        setViewProfile(true)
        setSelectedUser(selectedProfile[0])

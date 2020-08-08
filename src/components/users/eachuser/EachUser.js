@@ -27,7 +27,7 @@ const EachUser = ({ user }) =>{
     const handleProfileView = () =>{
         setViewProfile(true)
         setSelectedUser(user)
-        //console.log('hello')
+        
     }
     return(
         <div className="each-user-container">

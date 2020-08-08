@@ -7,7 +7,8 @@ import { ProfileContext } from '../../context/ProfileContext'
 const FavoriteUsers = () => {
     const { appUsers } = useContext(FetchDataContext)
     const { userProfile } = useContext(ProfileContext)
-    //console.log(userProfile)
+    
+    //just getting favorite lists and making use of the already created users component to display favorites friends of user
     return (
         <div className="chat-users-container">
             {

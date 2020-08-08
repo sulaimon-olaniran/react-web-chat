@@ -4,25 +4,25 @@ import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/Send'
 import SendImage from './sendimage/SendImage'
 import ChatEmojis from './emoji/Emojis'
-//import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 
 const ChatInput = ({ selectedChat, userProfile }) => {
     const [message, setMessage] = useState('')
-    const [messageType, setMessageType] = useState(null)
-    const docId = selectedChat[0].interloctors.sort().join(':')
+
+    //getting document id of selected message
+    const docId = selectedChat[0].chatId 
 
     const getInputText = (e) => {
         e.keyCode === 13 ? submitMessage(message, 'text') : setMessage(e.target.value)
-        e.keyCode === 13 ? submitMessage() : setMessageType('text')
     }
 
     const submitMessage = (message, type) => {
-        if (message && message.replace(/\s/g, '').length > 0) {
+        if (message && message.replace(/\s/g, '').length > 0) { //checking if message isn't empty string or just spaces
             setMessage('')
             db.collection('chats').doc(docId)
                 .set({
                     messages: firebase.firestore.FieldValue.arrayUnion({
                         sender: userProfile.id,
+                        senderName : userProfile.userName,
                         message: message,
                         timeStamp: Date.now(),
                         messagetype: type
@@ -32,7 +32,7 @@ const ChatInput = ({ selectedChat, userProfile }) => {
 
                 .then((res) => {
                     if( userProfile.isActive === false){
-                        db.collection("users").doc(auth.currentUser.uid).update({
+                        db.collection("users").doc(auth.currentUser.uid).update({ //setting user active to online incase the dashboard components fails to run the active funcion
                             isActive: true,
                         })
                         .then(() => {
@@ -44,9 +44,8 @@ const ChatInput = ({ selectedChat, userProfile }) => {
                 })
         }
         else {
+            //user trys to submit unvalid message, viberate for mobile phones.
             window.navigator.vibrate(200)
-            //console.log("message not valid")
-            //console.log(message)
         }
 
     }
@@ -57,7 +56,7 @@ const ChatInput = ({ selectedChat, userProfile }) => {
         <div className="chat-input-container">
             <div className="chat-input-contents">
                 <div className="image-emoji-container">
-                    <SendImage setMessageType={setMessageType} setMessage={setMessage} submitMessage={submitMessage} />
+                    <SendImage submitMessage={submitMessage} />
                     <ChatEmojis setMessage={setMessage} />
                 </div>
                 <div className="input-text-container">

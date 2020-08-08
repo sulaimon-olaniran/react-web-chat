@@ -27,20 +27,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+//I JUST HAPPENED TO HAVE THIS COMPONENT HERE DEEP, BUT IT'S A VERY IMPORTANT COMPONENT OF THE APP....
+//This component handles the modal that displays the user profile where othere users can then add user to favorite of begin chat with......
+
 
 const EachUserProfile = () => {
     const classes = useStyles()
     const { viewProfile, setViewProfile, selectedUser, setOpenChat, setSelectedUser, themeClass } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
-    const userArray = []
-    const userNamesArray = []
-    userArray.push(selectedUser.id)
-    userProfile && userArray.push(userProfile.id)
+    const userArray = [] //array of current users in the chat(their IDs is being selected)
+    const userNamesArray = [] //username of current users in the chat
+
+    userArray.push(selectedUser.id) //pushing friend's id to userArray
+    userProfile && userArray.push(userProfile.id) //pushing logged in user id to user arry
 
     userNamesArray.push(selectedUser.userName)
     userNamesArray.push(userProfile.userName)
 
-    const [viewProfileImage, setViewProfileImage] = useState(false)
+    const [viewProfileImage, setViewProfileImage] = useState(false) //viewing/opening of selected user profile image
 
     const openProfileImage = () => setViewProfileImage(true)
     const closeProfileImage = () => setViewProfileImage(false)
@@ -52,22 +56,23 @@ const EachUserProfile = () => {
 
 
     const openchatFromUsers = () => {
-        const docId = userArray.sort().join(':')
-        const arrayOfChatIds = []
+        const docId = userArray.sort().join(':') //forming a docId for messages with both users IDs alphabetically
 
-        chatMessages.length > 0 && chatMessages.forEach(message => {
-            arrayOfChatIds.push(message.chatId)
+        const arrayOfChatIds = [] // array to hold all availbale chats in the databaser
+
+        chatMessages.length > 0 && chatMessages.forEach(message => { //mapping throuhg current chats in database
+            arrayOfChatIds.push(message.chatId) //pushing current chats id to array
         })
-
+       
+        //checking if both users already have a chat together or not
         if (chatMessages.length > 0) {
-            if (arrayOfChatIds.includes(docId)) {
-                //console.log("chat already exists")
+            if (arrayOfChatIds.includes(docId)) {  //if they do have a chat together, just open up their chats in chat board
                 setViewProfile(false)
                 setOpenChat(true)
                 setSelectedUser(selectedUser)
             }
 
-            else {
+            else {//else create their chats
                 db.collection('chats').doc(docId).set({
                     createdBy: userProfile.id,
                     createdAt: Date.now(),
@@ -81,12 +86,11 @@ const EachUserProfile = () => {
                         setViewProfile(false)
                         setOpenChat(true)
                         setSelectedUser(selectedUser)
-                        //console.log("i went on to create the chat")
                     })
 
             }
         }
-        else {
+        else { //if user has no active chats, just go on and create the chat
             db.collection('chats').doc(docId).set({
                 createdBy: userProfile.id,
                 createdAt: Date.now(),
@@ -100,7 +104,6 @@ const EachUserProfile = () => {
                     setViewProfile(false)
                     setOpenChat(true)
                     setSelectedUser(selectedUser)
-                    //console.log("i created the new chat,not him")
                 })
         }
 
@@ -108,7 +111,7 @@ const EachUserProfile = () => {
     }
 
 
-    const addUserToFavorites = () => {
+    const addUserToFavorites = () => { //function to add user to favorite lists of logged in user..
         const id = userProfile && userProfile.id
         db.collection('users').doc(id)
             .set({
@@ -119,15 +122,18 @@ const EachUserProfile = () => {
 
 
 
-    const removeUserFromFavorites = () => {
+    const removeUserFromFavorites = () => { //function to remove user to favorite lists of logged in user..
         const id = userProfile && userProfile.id
         db.collection('users').doc(id)
             .set({
                 favorites: firebase.firestore.FieldValue.arrayRemove(selectedUser.id)
             }, { merge: true })
     }
-
+    
+    //conditionally coloring the love icon based on if user is in favorites list or not
     const favColor = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.id) ? 'favorite' : 'not-favorite'
+
+    //conditionally passing function to favorites button based on if user is already favorite or not
     const currentFunction = userProfile && userProfile.favorites.length > 0 && userProfile.favorites.includes(selectedUser.id) ? removeUserFromFavorites : addUserToFavorites
 
     return (

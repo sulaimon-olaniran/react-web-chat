@@ -6,26 +6,24 @@ export const FetchDataContext = createContext()
 
 
 const FetchDataContextProvider = ({ children }) => {
+    const [appUsers, setAppUsers] = useState([]) //holding all users of the app
 
-    const [usersFetch, setUsersFetch] = useState(true)
-    const [appUsers, setAppUsers] = useState([])
+    const [messageNotifications, setMessageNotifications] = useState([]) //holds all messages notifications
 
-    const [messageNotifications, setMessageNotifications] = useState([])
+    const [newNotification, setNewNotification] = useState(false) //handles new message notification true or false(didn't think of this name well)
 
-    const [newNotification, setNewNotification] = useState(false)
+    const [viewProfile, setViewProfile] = useState(false) //passed arround the app to handle the modal of viewing profile or not
+    const [selectedUser, setSelectedUser] = useState({}) //passed arround the app as to know the selecteduser the logged in user wants to interact with
+    const [openChat, setOpenChat] = useState(false) //handles opening and closing of chatboard
 
-    const [viewProfile, setViewProfile] = useState(false)
-    const [selectedUser, setSelectedUser] = useState({})
-    const [openChat, setOpenChat] = useState(false)
+    const [openNotificationsDrawer, setOpenNotificationsDrawer] = useState(false) //handles opening and closing of notifications drawer
+    const [userNotification, setUserNotification] = useState(false) //used to check if user has new notifactions to conditionally render the bell icon in dashboard component
 
-    const [openNotificationsDrawer, setOpenNotificationsDrawer] = useState(false)
-    const [userNotification, setUserNotification] = useState(false)
-
-    const [isDarkTheme, setIsDarkTheme] = useState(false)
+    const [isDarkTheme, setIsDarkTheme] = useState(false) //handles team
     const mountedRef = useRef(true)
 
-    const [profileUpdatesNotifications, setProfileUpdatesNotifications] = useState([])
-    const [userJoinsNotifications, setUserJoinsNotifications] = useState([])
+    const [profileUpdatesNotifications, setProfileUpdatesNotifications] = useState([]) //stores profile updates notifications
+    const [userJoinsNotifications, setUserJoinsNotifications] = useState([]) //stores new user joining notifications
 
     const handleTheme = () => {
         setIsDarkTheme(!isDarkTheme)
@@ -42,10 +40,8 @@ const FetchDataContextProvider = ({ children }) => {
             const users = []
             docs.forEach(doc => {
                 users.push(doc.data())
-                setUsersFetch(false)
             })
             setAppUsers(users)
-            //console.log(users)
         })
     }
 
@@ -60,40 +56,42 @@ const FetchDataContextProvider = ({ children }) => {
             setNewNotification(true)
             docs.forEach(doc => {
                 notifications.push(doc.data())
-                setUsersFetch(false)
             })
             setMessageNotifications(notifications)
-            //console.log(users)
         })
     }
 
 
 
-
+    //this function is tricky, but i wrote it in order for each user to have their own specific notification and be able to interact with it uniquely
     const getNotifications = (collection, arrayFunction) => {
+        //firstly gets current logged in notifications and store the IDs in an array
         db.collection('users').doc(auth.currentUser.uid).collection(collection)
             .onSnapshot(docs => {
                 const currentNotifications = []
                 docs.forEach(doc => {
                     currentNotifications.push(doc.data().id)
                 })
-
+               //then gets universal notification that is accessible by all users of the app
                 return db.collection(collection).orderBy('time', 'desc')
                     .onSnapshot(docs => {
                         const availableNotifications = []
                         docs.forEach(doc => {
+                            //checks if the universal has a new notificaton that isnt availble in the logged in user notifications data
+                            //doing this so firebase doesn't overwrite or update the previous notifications data
                             if (!currentNotifications.includes(doc.data().id)) {
                                 availableNotifications.push(doc.data())
                             }
                         })
 
                         if (availableNotifications.length > 0) {
+                            //if there are new notification(s) from the universal notifications, go ahead and add it to the logged in user private notifications data
                             availableNotifications.forEach(notification => {
                                 return db.collection('users').doc(auth.currentUser.uid).collection(collection)
                                     .doc(notification.id)
                                     .set(notification, {merge : true})
                                     .then(res => {
-                                         //console.log('added the final notifications')
+                                         //when that is all done, get the newly formed logged in user private notifications and set it in an arrray
                                         return db.collection('users').doc(auth.currentUser.uid).collection(collection)
                                             .onSnapshot(docs => {
                                                 const notifications = []
@@ -131,8 +129,6 @@ const FetchDataContextProvider = ({ children }) => {
             if (user) {
                 getAppUsers()
                 getMessageNotifications()
-                //getNewUserJoinedNotifications()
-                //getProfileUpdatesNotifications()
                 getNotifications('profile_notification', setProfileUpdatesNotifications)
                 getNotifications('newUser_notification', setUserJoinsNotifications)
             }
