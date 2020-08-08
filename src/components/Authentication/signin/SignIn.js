@@ -7,8 +7,9 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import { auth, analytics } from '../../../firebase/Firebase'
+import { auth } from '../../../firebase/Firebase'
 import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone'
+
 
 const SignInPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, status }) => {
     const [checked, setChecked] = useState(false)
@@ -70,11 +71,11 @@ const FormikSignInPage = withFormik({
                 setTimeout(() => {
                    props.history.push('/dashboard')
                 }, 1000)
-            }).catch(error => {
+            }).catch(err => {
                 setSubmitting(false)
-                console.log(error)
+                console.log(err)
                 setStatus({ loading: false })
-                setStatus({ error: "Wrong Email or Password" })
+                setStatus({ error: err.message })
             })
 
     }

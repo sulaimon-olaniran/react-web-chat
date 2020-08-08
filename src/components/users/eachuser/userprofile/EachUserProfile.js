@@ -69,7 +69,7 @@ const EachUserProfile = () => {
 
             else {
                 db.collection('chats').doc(docId).set({
-                    createdBy: userProfile.userName,
+                    createdBy: userProfile.id,
                     createdAt: Date.now(),
                     chatId: docId,
                     messageRead: false,
@@ -88,7 +88,7 @@ const EachUserProfile = () => {
         }
         else {
             db.collection('chats').doc(docId).set({
-                createdBy: userProfile.userName,
+                createdBy: userProfile.id,
                 createdAt: Date.now(),
                 chatId: docId,
                 messageRead: false,

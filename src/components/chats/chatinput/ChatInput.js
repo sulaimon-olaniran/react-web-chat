@@ -6,7 +6,7 @@ import SendImage from './sendimage/SendImage'
 import ChatEmojis from './emoji/Emojis'
 //import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 
-const ChatInput = ({ userName, selectedChat, userProfile }) => {
+const ChatInput = ({ selectedChat, userProfile }) => {
     const [message, setMessage] = useState('')
     const [messageType, setMessageType] = useState(null)
     const docId = selectedChat[0].interloctors.sort().join(':')
@@ -22,7 +22,7 @@ const ChatInput = ({ userName, selectedChat, userProfile }) => {
             db.collection('chats').doc(docId)
                 .set({
                     messages: firebase.firestore.FieldValue.arrayUnion({
-                        sender: userName,
+                        sender: userProfile.id,
                         message: message,
                         timeStamp: Date.now(),
                         messagetype: type

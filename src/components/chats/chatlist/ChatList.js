@@ -65,7 +65,7 @@ const ChatList = () => {
 
                                             if (user.id === interloctor) {
                                                 return (
-                                                    userChat.messages.length > 0 || userChat.createdBy === userProfile.userName ?
+                                                    userChat.messages.length > 0 || userChat.createdBy === userProfile.id ?
                                                         <ListItem key={user.id} onClick={() => handleViewChatBoard(user)}>
                                                             <ListItemAvatar>
                                                                 <Avatar src={user.displayImage} alt={user.userName.split('')[0]} />
@@ -86,15 +86,15 @@ const ChatList = () => {
                                                                                 <span>
                                                                                     {userChat.messages[userChat.messages.length - 1].messagetype === "image" ?
                                                                                         <p style={{ color: "darkgreen" }}>
-                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName ? "You" : user.userName} sent an image
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.id ? "You" : user.userName} sent an image
                                                                                         </p>
                                                                                         :
                                                                                         <p>
                                                                                             {`${userChat.messages[userChat.messages.length - 1].message.substring(0, 20)}....`}
 
-                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.userName && <DoneIcon className={classes.xsmall} />}
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender === userProfile.id && <DoneIcon className={classes.xsmall} />}
 
-                                                                                            {userChat.messages[userChat.messages.length - 1].sender !== userProfile.userName ?
+                                                                                            {userChat.messages[userChat.messages.length - 1].sender !== userProfile.id ?
                                                                                                 userChat.messageRead === false && <span style={{ color: "red" }}>unread message(s)</span> : null
                                                                                             }
                                                                                         </p>

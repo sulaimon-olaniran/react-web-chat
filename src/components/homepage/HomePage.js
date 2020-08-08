@@ -8,6 +8,7 @@ import { auth, db } from '../../firebase/Firebase'
 
 
 const HomePage = () => {
+    //setting user active status to offline once they on the homepage(no more on dashboard )
     const setUserActiveFalse = () => {
         db.collection("users").doc(auth.currentUser.uid).update({
             isActive: false,

@@ -13,14 +13,18 @@ import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone'
 
 const SignUpPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, status }) => {
     const [checked, setChecked] = useState(false)
+
     const handleChange = (event) => {
         setChecked(event.target.checked)
     }
+
     if (auth.currentUser !== null) return <Redirect to="/dashboard" />
     return (
         <div className={`signup-container`} >
+
             <div className="signup-form-container">
-            <h1>OS-MESSENGER <ForumTwoToneIcon fontSize="large" color="primary" /></h1>
+                <h1>OS-MESSENGER <ForumTwoToneIcon fontSize="large" color="primary" /></h1>
+
                 <Form>
 
                     <Field as={TextField} type="Text" name="firstName" label="First Name"
@@ -57,6 +61,7 @@ const SignUpPage = ({ setFieldValue, handleBlur, touched, errors, isSubmitting, 
                     <Field type="submit" as={Button} variant="contained" color="secondary" id="button" disabled={isSubmitting || !checked}>Join Now</Field>
                     {status && status.error && <small style={{ color: "red" }}>{status && status.error}</small>}
                 </Form>
+
                 <p>Already a User ? <NavLink to="/signin"><Button color="primary" size="small" >Log In</Button></NavLink></p>
             </div>
 
@@ -81,13 +86,14 @@ const FormikSignUpPage = withFormik({
         const { users } = props
         setSubmitting(true)
         setStatus({ loading: true })
-
-        const usersNameArray = []
+    
+        const usersNameArray = [] //array to hold all registered users usernames
         users.forEach(user => {
             const names = user.userName.toLowerCase()
-            usersNameArray.push(names)
+            usersNameArray.push(names) 
         })
-
+        
+        //checking if current user username of choice already exists in the database
         if (usersNameArray.includes(userName.toLowerCase())) {
             setSubmitting(false)
             setStatus({ loading: false })

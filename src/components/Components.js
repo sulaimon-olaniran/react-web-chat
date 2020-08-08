@@ -28,7 +28,7 @@ const Components = () => {
     const text = "Authenticating User"
 
     const filterFunction = (notification) => {
-        return notification.seen === false && notification.sender !== userProfile.userName
+        return notification.seen === false && notification.usersId.includes(userProfile.id) && notification.sender !== userProfile.id 
     }
     const filteredNotifications = messageNotifications.length > 0 ? messageNotifications.filter(filterFunction) : null
     //console.log(filteredNotifications)
@@ -69,12 +69,12 @@ const Components = () => {
 
             {
                 filteredNotifications && filteredNotifications.map((notification, i) => {
-                    if (openChat === true && notification.userNames.includes(selectedUser.userName)) {
+                    if (openChat === true && notification.usersId.includes(selectedUser.id)) {
                         setNotifactionToSeen()
                     }
                     else {
                         incomingMessage.current && incomingMessage.current.play()
-                        console.log("play sound")
+                       
                         return (
                             <Snackbar open={newNotification === true && notification.seen === false} autoHideDuration={2000} onClose={handleCloseAlert}
                                 anchorOrigin={{

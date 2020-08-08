@@ -93,7 +93,8 @@ exports.newMessages = functions.firestore.document('chats/{chatId}').onWrite((ch
         time: message.messages[message.messages.length - 1].timeStamp,
         seen: false,
         id : docId,
-        userNames : message.userNames
+        userNames : message.userNames,
+        usersId : message.interloctors
     }
 
     if( message.messageRead === false){

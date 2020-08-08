@@ -16,6 +16,8 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { db } from '../../../firebase/Firebase'
 import ViewImageComponent from '../../ViewImage'
 
+//THIS COMPONENT HOLDS THE CHATTING DISPLAY ITSELF
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -42,20 +44,23 @@ const useStyles = makeStyles((theme) => ({
 const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass, setViewProfile } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
-    const classes = useStyles()
+    const classes = useStyles() 
     //const chatContainer = useRef(null)
     const [sticky] = useSticky()
     const scrollToBottom = useScrollToBottom()
 
-    const [viewImageModal, setViewImageModal] = useState(false)
-    const [selectedImg, setSelectedImg] = useState(null)
+    const [viewImageModal, setViewImageModal] = useState(false) //handles viewing profile from the chat board, if true modal would open with user profile displayed
+    const [selectedImg, setSelectedImg] = useState(null) //holds image of the profile user is trying to view
 
+
+    //function for filtering out the selected chats from lists of availble user chats
     const getSelectedChat = (chat) => {
         return chat.interloctors.includes(selectedUser.id)
     }
-
+    
+    //function for closing chatboard
     const closeChatBoard = () => {
-        setOpenChat(false)
+        setOpenChat(false) //this function was gotten from context
     }
 
     const closeImageModal = () => {
@@ -63,19 +68,21 @@ const ChatBoard = () => {
     }
 
     const openImageModal = (image) => {
-        setViewImageModal(true)
-        setSelectedImg(image)
+        setViewImageModal(true) // opens modal
+        setSelectedImg(image) // and sets image state with image url from profile of user being chatted with
     }
-
+    
+    //variable holding the filtered(selected) chat
     const selectedChat = chatMessages.filter(getSelectedChat)
 
 
     useEffect(() => {
+        //setting message read to true once receiver opens chat board
         db.collection("chats").doc(selectedChat[0].chatId).update({
             messageRead: true,
         })
             .then(() => {
-                console.log('read now true')
+                //console.log('read now true')
             })
             .catch(error => console.log(error))
     }, [])
@@ -118,16 +125,18 @@ const ChatBoard = () => {
                             <ScrollToBottom className="messages-container" >
                                 {
                                     selectedChat.length > 0 ? selectedChat[0].messages.map((message, i) => {
-                                        const alignMessage = message.sender.toLowerCase() === userProfile.userName.toLowerCase() ? "align-message-right" : "align-message-left"
+                                        //aligning message based on sender of the message
+                                        const alignMessage = message.sender === userProfile.id ? "align-message-right" : "align-message-left"
                                         return (
                                             <div className={`each-message-container ${alignMessage}`} key={i} >
                                                 {
                                                     message.messagetype === "image" ?
-                                                        //console.log(message.message)
+                                                        //if message type is image, display an image shaped div not a text shaped div in the chat
                                                         <div className="message-type-image">
                                                             <img src={message.message} alt="Img File" onClick={() => openImageModal(message.message)} />
                                                             <small>{moment(message.timeStamp).fromNow()}</small>
 
+                                                             {/* modal to view image sent in chats */}
                                                             <ViewImageComponent 
                                                                 openModal = {viewImageModal}
                                                                 closeModal = {closeImageModal}
@@ -146,11 +155,12 @@ const ChatBoard = () => {
                                         )
                                     })
                                         :
+                                        
                                         <p>Let {selectedUser.userName} know you're interested in a chat by sending the first message</p>
                                 }
                                 {!sticky && <button onClick={scrollToBottom}>Click</button>}
                             </ScrollToBottom>
-                            <ChatInput userName={userProfile.userName} friendName={selectedUser && selectedUser.userName} selectedChat={selectedChat} userProfile={userProfile} />
+                            <ChatInput selectedChat={selectedChat} userProfile={userProfile} />
                         </div>
                     </div>
                 </Slide>
