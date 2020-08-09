@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import ChatInput from '../chatinput/ChatInput'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { makeStyles } from '@material-ui/core/styles'
@@ -44,7 +44,6 @@ const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass, setViewProfile } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
     const classes = useStyles() 
-    const mountedRef = useRef(true)
     const [sticky] = useSticky()
     const scrollToBottom = useScrollToBottom()
 
@@ -86,7 +85,7 @@ const ChatBoard = () => {
             })
             .catch(error => console.log(error))
         }
-    }, [selectedChat, userProfile.id])
+    }, [selectedChat, userProfile.id, openChat])
 
 
     return (
