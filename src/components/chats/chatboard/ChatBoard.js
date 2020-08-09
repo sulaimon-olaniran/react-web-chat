@@ -77,7 +77,7 @@ const ChatBoard = () => {
 
     useEffect(() => {
         //setting message read to true once receiver opens chat board
-        if (!mountedRef.current) return null
+       
         db.collection("chats").doc(selectedChat[0].chatId).update({
             messageRead: true,
         })

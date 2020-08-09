@@ -22,7 +22,7 @@ import { FetchDataContext } from '../../context/FetchDataContext'
 import { makeStyles } from '@material-ui/core/styles'
 import AppLoader from '../loader/AppLoader'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from '@material-ui/icons/Notifications'
 
 
 const DashBoard = ({ history }) => {
