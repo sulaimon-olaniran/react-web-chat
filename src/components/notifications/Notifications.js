@@ -54,13 +54,13 @@ const Notifications = () => {
 
     useEffect(() => {
         //checking if there's notifications available and if the notifications slider has been opened since the latest notification
-        sortedUserNotifications !== undefined &&
+        sortedUserNotifications !== null && sortedUserNotifications.length > 0 &&
         sortedUserNotifications[0].seen === false ? setUserNotification(true) : setUserNotification(false)
 
-        const collection = sortedUserNotifications[0].title
-        const docId = sortedUserNotifications[0].id
+        const collection = sortedUserNotifications.length > 0 ? sortedUserNotifications[0].title : null
+        const docId = sortedUserNotifications.length > 0 ? sortedUserNotifications[0].id : null
 
-        if (openNotificationsDrawer && userNotification ) {
+        if (openNotificationsDrawer && userNotification && sortedUserNotifications.length > 0 ) {
             //setting the latest notification seen to true if notifications slider was openned
             db.collection('users').doc(userProfile.id).collection(collection).doc(docId)
                 .update({

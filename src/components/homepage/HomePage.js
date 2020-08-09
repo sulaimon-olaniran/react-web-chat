@@ -15,7 +15,7 @@ const HomePage = () => {
             lastSeen : Date.now()
         })
             .then(() => {
-                console.log('user-logged-off')
+                //console.log('user-logged-off')
             })
             .catch(error => console.log(error))
     }
