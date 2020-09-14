@@ -77,7 +77,7 @@ const ChatBoard = () => {
     useEffect(() => {
         //setting message read to true once receiver opens chat board
         if (
-            openChat === true && selectedChat[0].messages[selectedChat[0].messages.length - 1].sender !== undefined &&
+            openChat === true && selectedChat[0].messages.length > 0 &&
             selectedChat[0].messages[selectedChat[0].messages.length - 1].sender !== userProfile.id
         ) {
             db.collection("chats").doc(selectedChat[0].chatId).update({
