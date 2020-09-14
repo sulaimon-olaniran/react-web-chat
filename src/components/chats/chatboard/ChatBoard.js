@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     small: {
         width: theme.spacing(6),
         height: theme.spacing(6),
-        cursor : "pointer"
+        cursor: "pointer"
     },
     xsmall: {
         width: theme.spacing(2),
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const ChatBoard = () => {
     const { selectedUser, openChat, setOpenChat, chatThemeClass, setViewProfile } = useContext(FetchDataContext)
     const { userProfile, chatMessages } = useContext(ProfileContext)
-    const classes = useStyles() 
+    const classes = useStyles()
     const [sticky] = useSticky()
     const scrollToBottom = useScrollToBottom()
 
@@ -55,7 +55,7 @@ const ChatBoard = () => {
     const getSelectedChat = (chat) => {
         return chat.interloctors.includes(selectedUser.id)
     }
-    
+
     //function for closing chatboard
     const closeChatBoard = () => {
         setOpenChat(false) //this function was gotten from context
@@ -69,21 +69,24 @@ const ChatBoard = () => {
         setViewImageModal(true) // opens modal
         setSelectedImg(image) // and sets image state with image url from profile of user being chatted with
     }
-    
+
     //variable holding the filtered(selected) chat
     const selectedChat = chatMessages.filter(getSelectedChat)
 
 
     useEffect(() => {
         //setting message read to true once receiver opens chat board
-        if(openChat === true && selectedChat[0].messages[selectedChat[0].messages.length - 1].sender !== userProfile.id){
-        db.collection("chats").doc(selectedChat[0].chatId).update({
-            messageRead: true,
-        })
-            .then(() => {
-                console.log('changed message read to true ohhhhhhh')
+        if (
+            openChat === true && selectedChat[0].messages[selectedChat[0].messages.length - 1].sender !== undefined &&
+            selectedChat[0].messages[selectedChat[0].messages.length - 1].sender !== userProfile.id
+        ) {
+            db.collection("chats").doc(selectedChat[0].chatId).update({
+                messageRead: true,
             })
-            .catch(error => console.log(error))
+                .then(() => {
+                    console.log('changed message read to true ohhhhhhh')
+                })
+                .catch(error => console.log(error))
         }
     }, [selectedChat, userProfile.id, openChat])
 
@@ -110,12 +113,12 @@ const ChatBoard = () => {
 
                             <div className="chat-board-title-profile">
                                 <Avatar alt="Remy Sharp" src={selectedUser.displayImage} className={classes.small}
-                                  onClick={ () => setViewProfile(true)}
+                                    onClick={() => setViewProfile(true)}
                                 />
                                 <span>
                                     <p> {selectedUser.userName}<FiberManualRecordIcon className={selectedUser.isActive ? 'online' : 'offline'} /></p>
-                                    {selectedUser.isActive === false ? <small>Last seen; {moment(selectedUser.lastSeen).calendar()}</small> 
-                                    : <small style={{color:'darkgreen', fontSize:"1rem"}}>Active</small>}
+                                    {selectedUser.isActive === false ? <small>Last seen; {moment(selectedUser.lastSeen).calendar()}</small>
+                                        : <small style={{ color: 'darkgreen', fontSize: "1rem" }}>Active</small>}
                                 </span>
                             </div>
 
@@ -136,13 +139,13 @@ const ChatBoard = () => {
                                                             <img src={message.message} alt="Img File" onClick={() => openImageModal(message.message)} />
                                                             <small>{moment(message.timeStamp).fromNow()}</small>
 
-                                                             {/* modal to view image sent in chats */}
-                                                            <ViewImageComponent 
-                                                                openModal = {viewImageModal}
-                                                                closeModal = {closeImageModal}
-                                                                imageFile = {selectedImg}
+                                                            {/* modal to view image sent in chats */}
+                                                            <ViewImageComponent
+                                                                openModal={viewImageModal}
+                                                                closeModal={closeImageModal}
+                                                                imageFile={selectedImg}
                                                             />
-                                                            
+
                                                         </div>
                                                         :
                                                         <div className={`each-board-message`}>
@@ -155,7 +158,7 @@ const ChatBoard = () => {
                                         )
                                     })
                                         :
-                                        
+
                                         <p>Let {selectedUser.userName} know you're interested in a chat by sending the first message</p>
                                 }
                                 {!sticky && <button onClick={scrollToBottom}>Click</button>}
